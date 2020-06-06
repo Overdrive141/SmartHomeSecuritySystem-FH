@@ -143,6 +143,7 @@ const MainStackNavigator = createStackNavigator(
         // ),
         title: 'Smart Home Security System',
         headerLeft: <DrawerExample navigationProps={navigation} />,
+        // headerTintColor: '#0ba8e6',
       }),
     },
     Neighborhood: {
@@ -189,7 +190,7 @@ const MainStackNavigator = createStackNavigator(
     TestIndoor: {
       screen: TestIndoorScreen,
       navigationOptions: ({navigation}) => ({
-        title: 'Indoor',
+        title: 'Indoor Camera',
       }),
     },
     DoorLock: {
@@ -224,7 +225,7 @@ const MainStackNavigator = createStackNavigator(
 
       headerStyle: {
         height: 64,
-        backgroundColor: 'white',
+        backgroundColor: '#0ba8e6',
         borderBottomColor: 'transparent',
         elevation: 0,
       },
@@ -264,7 +265,7 @@ const SettingsNavigator = createStackNavigator({
 
       headerStyle: {
         height: 64,
-        backgroundColor: 'white',
+        backgroundColor: '#0ba8e6',
         borderBottomColor: 'transparent',
         elevation: 0,
       },
@@ -304,6 +305,9 @@ const DrawerNavigatorExample = createDrawerNavigator(
         drawerLabel: 'Settings',
         drawerIcon: <Icon name="settings" />,
       },
+      // AboutScreen: {
+      //   screen: AboutS
+      // }
     },
   },
   {

@@ -498,6 +498,7 @@ const styles = StyleSheet.create({
     paddingVertical: theme.sizes.padding,
     paddingHorizontal: theme.sizes.padding,
     backgroundColor: theme.colors.gray4,
+    flex: 1,
   },
   // horizontal line
   hLine: {

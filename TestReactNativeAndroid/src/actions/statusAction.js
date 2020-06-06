@@ -24,7 +24,7 @@ export const getNodeHealthStatus = () => dispatch => {
 
 export const getFlaskHealthStatus = () => dispatch => {
   axios
-    .get('http://192.168.200.194:5000/')
+    .get('http://192.168.200.3:5000/')
     .then(res =>
       dispatch({
         type: GET_FLASK_HEALTHSTATUS,

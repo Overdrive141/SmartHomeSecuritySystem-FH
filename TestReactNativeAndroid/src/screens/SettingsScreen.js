@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {Badge} from 'react-native-elements';
+import {theme} from '../constants';
 
 import React, {useState, useReducer, useEffect, Component} from 'react';
 import bgImage from '../../assets/images/bg3.jpg';
@@ -78,7 +79,7 @@ class SettingsScreen extends Component {
             status="error"
             containerStyle={{position: 'absolute', left: -12, top: 5}}
           />
-          <TouchableOpacity onPress={() => this.props.getNodeHealthStatus()}>
+          <TouchableOpacity onPress={() => this.props.getFlaskHealthStatus()}>
             <Text spacing={0.4} transform="uppercase" style={{color: 'red'}}>
               Offline
             </Text>
@@ -89,9 +90,9 @@ class SettingsScreen extends Component {
 
     // console.log(this.state);
     return (
-      <ScrollView>
-        <Block style={styles.backgroundContainer}>
-          <Block row>
+      <ScrollView style={styles.backgroundContainer}>
+        <Block>
+          <Block row style={styles.block}>
             <Block center>
               <Text bold spacing={0.4}>
                 Node Server Status:
@@ -99,7 +100,9 @@ class SettingsScreen extends Component {
             </Block>
             <Block right>{nodeStatusComponent}</Block>
           </Block>
-          <Block row style={{marginTop: 5}}>
+          <Block
+            row
+            style={{marginTop: 5, backgroundColor: theme.colors.gray3}}>
             <Block center>
               <Text bold spacing={0.4}>
                 Flask Server Status:
@@ -118,9 +121,15 @@ const styles = StyleSheet.create({
     flex: 1,
     width: null,
     height: null,
-    padding: 10,
+    paddingVertical: theme.sizes.padding,
+    paddingHorizontal: theme.sizes.padding,
+    backgroundColor: theme.colors.gray4,
+
     // alignItems: 'center',
     // justifyContent: 'space-evenly',
+  },
+  block: {
+    backgroundColor: theme.colors.gray3,
   },
 });
 
@@ -135,7 +144,10 @@ const mapStateToProps = state => ({
   serverHealth: state.status,
 });
 
-export default connect(mapStateToProps, {
-  getNodeHealthStatus,
-  getFlaskHealthStatus,
-})(SettingsScreen);
+export default connect(
+  mapStateToProps,
+  {
+    getNodeHealthStatus,
+    getFlaskHealthStatus,
+  },
+)(SettingsScreen);

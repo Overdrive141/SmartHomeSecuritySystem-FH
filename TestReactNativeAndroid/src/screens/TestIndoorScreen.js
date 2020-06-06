@@ -24,31 +24,51 @@ import {Block, Badge, Card, Text} from '../components';
 
 import VideoPlayer from '../components/VideoPlayer';
 
+// TODO: Set Loading Container in WebView
+
 class TestIndoorScreen extends Component {
   render() {
     return (
-      <ScrollView
-        style={{
-          paddingVertical: theme.sizes.padding,
-          // paddingHorizontal: theme.sizes.padding,
-        }}>
-        <Card
-          shadow
+      <ScrollView style={styles.welcome}>
+        <View
           style={{
+            overflow: 'hidden',
+            flex: 1,
+            borderRadius: 30,
+            margin: 15,
             height: Dimensions.get('screen').height / 2,
-            // width: Dimensions.get('screen').width,
           }}>
+          {/* <Card
+            shadow
+            style={{
+              height: Dimensions.get('screen').height / 2,
+              // overflow: 'hidden',
+              // flex: 1,
+              borderTopLeftRadius: 12,
+              borderTopRightRadius: 12,
+              // width: Dimensions.get('screen').width,
+            }}> */}
           <WebView
-            // style={styles.videoContainer}
+            style={styles.video}
             source={{uri: 'http://192.168.200.3:5000/video'}}
+            scalesPageToFit={false}
+            startInLoadingState={false}
+            javaScriptEnabled={false}
           />
-        </Card>
+          {/* </Card> */}
+        </View>
       </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  welcome: {
+    paddingVertical: theme.sizes.padding,
+    paddingHorizontal: theme.sizes.padding,
+    backgroundColor: theme.colors.gray4,
+    // padding: 8,
+  },
   videoContainer: {
     // height: '33%',
     // width: '100%',
@@ -74,11 +94,14 @@ const styles = StyleSheet.create({
     // width: 1920,
     // borderColor: 'white',
     // borderRadius: 5,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
+    // position: 'absolute',
+    // top: 0,
+    // left: 0,
+    // bottom: 0,
+    // right: 0,
+    flex: 1,
+
+    // ...StyleSheet.absoluteFillObject,
   },
 });
 

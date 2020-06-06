@@ -16,11 +16,12 @@ import Video from 'react-native-video';
 import MenuItems from '../components/MenuItems';
 
 import {Card, Text} from '@ui-kitten/components';
+import {theme} from '../constants';
 
 const HomeScreen = ({navigation}) => {
   // TODO: Max 3 per row. Set menuitems style
   return (
-    <View style={styles.backgroundContainer}>
+    <View style={styles.welcome}>
       <View style={styles.viewStyle}>
         <MenuItems
           title="Neighborhood Watch"
@@ -34,19 +35,6 @@ const HomeScreen = ({navigation}) => {
           navigation={navigation}
           name="DoorLock"
         />
-        {/* <MenuItems
-          title="Indoor Security Camera"
-          imageSource={require('../../assets/images/indoor.png')}
-          navigation={navigation}
-          name="DoorLock"
-        /> */}
-
-        {/* <MenuItems
-          title="Smart Door Lock"
-          imageSource={require('../../assets/images/smarthome.png')}
-          navigation={navigation}
-          name="DoorLock"
-        /> */}
       </View>
       <View style={styles.viewStyle}>
         <MenuItems
@@ -70,8 +58,8 @@ const HomeScreen = ({navigation}) => {
           name="DoorLock"
         /> */}
         <MenuItems
-          title="Test"
-          imageSource={require('../../assets/images/fan.png')}
+          title="Indoor Camera"
+          imageSource={require('../../assets/images/indoor.png')}
           navigation={navigation}
           name="TestIndoor"
         />
@@ -81,6 +69,14 @@ const HomeScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  welcome: {
+    paddingTop: theme.sizes.padding,
+    paddingLeft: theme.sizes.padding,
+    paddingRight: theme.sizes.padding,
+    backgroundColor: theme.colors.gray4,
+    flex: 1,
+    // padding: 8,
+  },
   item: {
     flex: 1,
     justifyContent: 'center',
@@ -91,16 +87,9 @@ const styles = StyleSheet.create({
   viewStyle: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'flex-end',
+    // alignItems: 'flex-end',
   },
-  backgroundContainer: {
-    // flex: 1,
-    // width: null,
-    // height: null,
-    // // justifyContent: 'center',
-    // alignItems: 'center',
-    padding: 8,
-  },
+
   logoContainer: {
     //alignItems: 'center'
     //  padding: 30,

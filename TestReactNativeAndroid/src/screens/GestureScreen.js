@@ -354,7 +354,7 @@ class GestureScreen extends Component {
                 marginBottom: 0,
                 marginTop: 0,
               }}>
-              <Block middle flex={false} style={{marginLeft: 120}}>
+              <Block middle flex={false} style={{marginLeft: 95}}>
                 <Button2
                   icon={<Icon name="arrow-left" size={30} color="white" />}
                   onPress={() => this.onPress('<')}
@@ -367,7 +367,7 @@ class GestureScreen extends Component {
                 />
               </Block>
 
-              <Block middle flex={false} style={{marginRight: 120}}>
+              <Block middle flex={false} style={{marginRight: 95}}>
                 <Button2
                   icon={<Icon name="arrow-right" size={30} color="white" />}
                   onPress={() => this.onPress('>')}
@@ -529,6 +529,12 @@ class GestureScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  welcome: {
+    paddingVertical: theme.sizes.padding,
+    paddingHorizontal: theme.sizes.padding,
+    backgroundColor: theme.colors.gray4,
+    flex: 1,
+  },
   textStyle: {
     color: 'white',
     fontSize: 25,

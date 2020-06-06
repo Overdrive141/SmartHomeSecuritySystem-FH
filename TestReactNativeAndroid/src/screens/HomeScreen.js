@@ -8,17 +8,95 @@ import {
   Dimensions,
   ToastAndroid,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import bgImage from '../../assets/images/bg3.jpg';
 import logo from '../../assets/images/logo.png';
 import Video from 'react-native-video';
 
 import MenuItems from '../components/MenuItems';
 
+import firebase from 'react-native-firebase';
+
 import {Card, Text} from '@ui-kitten/components';
 import {theme} from '../constants';
 
 const HomeScreen = ({navigation}) => {
+  useEffect(() => {
+    //Listen for FCM
+    firebase.notifications().onNotification(notification => {
+      // console.log(JSON.stringify(notification));
+      console.log(notification);
+      this.displayNotification(notification);
+    });
+
+    firebase
+      .messaging()
+      .hasPermission()
+      .then(enabled => {
+        if (enabled) {
+          // user has permissions
+
+          // firebase
+          //   .messaging()
+          //   .getToken()
+          //   .then(fcmToken => {
+          //     if (fcmToken) {
+          //       // user has a device token
+          //       console.log('Token ' + fcmToken);
+          //       firebase
+          //         .database()
+          //         .ref('/users/' + Math.floor(141))
+          //         .set({
+          //           email: 'farhan.hammad@gmail.com',
+          //           notification_token: fcmToken,
+          //           created_at: Date.now(),
+          //         })
+          //         .then(res => {
+          //           console.log(res);
+          //         });
+          //     } else {
+          //       alert("User doesn't have a device token yet.");
+          //       console.log('No Token');
+          //     }
+          //   });
+
+          firebase.messaging().subscribeToTopic('smarthometest');
+        } else {
+          // user doesn't have permission
+          firebase
+            .messaging()
+            .requestPermission()
+            .then(() => {
+              // User has authorised
+              alert('You will get notifications for Neighborhood Watch');
+              firebase.messaging().subscribeToTopic('smarthometest');
+            })
+            .catch(error => {
+              // User has rejected permissions
+              alert('You will not get notifications for Neighborhood Watch');
+            });
+        }
+      });
+
+    //Display Notifications in Foreground
+    displayNotification = notification => {
+      const localNotification = new firebase.notifications.Notification({
+        show_in_foreground: true,
+      })
+        .setNotificationId(notification._notificationId)
+        .setTitle(notification._title)
+        .setBody(notification._body)
+        .android.setChannelId('test-channel')
+        .android.setBigText(notification.data._body)
+        .android.setPriority(firebase.notifications.Android.Priority.High);
+
+      firebase
+        .notifications()
+        .displayNotification(localNotification)
+        .catch(err => console.error(err));
+    };
+  });
+
   // TODO: Max 3 per row. Set menuitems style
   return (
     <View style={styles.welcome}>

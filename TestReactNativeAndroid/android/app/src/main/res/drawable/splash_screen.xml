@@ -1,17 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
+    <!-- <item
         android:drawable="@android:color/white"/>
    <item
-        android:width="100dp"
-        android:height="100dp"
-        android:drawable="@drawable/icon"
+        android:width="250dp"
+        android:height="250dp"
+        android:drawable="@drawable/smarthomelogo"
         android:gravity="center" />
 
-    <!-- <item android:bottom="50dp" android:width="230dp"
+     <item android:bottom="50dp" android:width="230dp"
     android:height="230dp">
            <bitmap
         android:gravity="center"
             android:src="@drawable/splashtext"/>
-    </item> -->
+    </item> --> 
+        <item>
+            <shape android:shape="rectangle">
+                <solid android:color="@android:color/white" />
+                <padding 
+                    android:left="0dip" 
+                    android:top="0dip"
+                    android:right="0dip" 
+                    android:bottom="0dip" />
+            </shape>
+        </item>
+        <!-- <item>
+            <bitmap android:src="@drawable/smarthomelogo"
+               android:gravity="center" />
+        </item> -->
+           <item
+        android:width="350dp"
+        android:height="350dp"
+        android:drawable="@drawable/smarthomelogo"
+        android:gravity="center" />
+        <!-- <item android:bottom="15dp"> 
+            <bitmap android:src="@drawable/companylogo"
+               android:gravity="bottom"
+android:width="10dp"
+        android:height="10dp"
+                />
+        </item> -->
+
 </layer-list>

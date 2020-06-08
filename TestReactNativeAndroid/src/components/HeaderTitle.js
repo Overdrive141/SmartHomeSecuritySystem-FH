@@ -25,7 +25,7 @@ export class Logo extends React.Component {
       //Add your logo in the image tag
       <View style={{flex: 0.8, flexDirection: 'row'}}>
         <Image
-          source={require('../../assets/images/smarthome.png')}
+          source={require('../../assets/images/logo.png')}
           resizeMode="contain"
           style={{width: 50, marginTop: 0}}
         />

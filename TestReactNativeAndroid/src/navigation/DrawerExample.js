@@ -71,13 +71,13 @@ const CustomDrawerComponent = props => (
         alignItems: 'center',
       }}>
       <Image
-        source={require('../../assets/images/smarthome.png')}
-        style={{height: 120, width: 120, borderRadius: 60}}
+        source={require('../../assets/images/extended.png')}
+        style={{height: 150, width: 180, borderRadius: 60}}
       />
       {/* <Text style={{fontSize: 15, fontWeight: 'bold'}}> */}
-      <Text spacing={0.4} transform="uppercase" bold>
+      {/* <Text spacing={0.4} transform="uppercase" bold>
         Smart Home Security System
-      </Text>
+      </Text> */}
     </View>
     <ScrollView>
       <DrawerItems {...props} />

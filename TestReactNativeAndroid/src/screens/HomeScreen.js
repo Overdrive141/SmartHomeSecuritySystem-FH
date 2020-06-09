@@ -95,6 +95,20 @@ const HomeScreen = ({navigation}) => {
         .displayNotification(localNotification)
         .catch(err => console.error(err));
     };
+
+    //   // this.onTokenRefreshListener = firebase
+    //   //   .messaging()
+    //   //   .onTokenRefresh(fcmToken => {
+    //   //     // Process your token as required
+    //   //     console.log(fcmToken);
+    //   //   });
+
+    //   const channel = new firebase.notifications.Android.Channel(
+    //     'test-channel',
+    //     'Test Channel',
+    //     firebase.notifications.Android.Importance.Max,
+    //   ).setDescription('Neighboorhood Test');
+    //   firebase.notifications().android.createChannel(channel);
   });
 
   // TODO: Max 3 per row. Set menuitems style

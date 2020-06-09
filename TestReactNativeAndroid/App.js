@@ -13,7 +13,7 @@ import store from './src/store';
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'remote-redux-devtools';
 
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -41,13 +41,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 
 import HeaderTitle from './src/components/HeaderTitle';
 
-import HomeScreen from './src/screens/HomeScreen';
-import GestureScreen from './src/screens/GestureScreen';
-import NeighborhoodScreen from './src/screens/NeighborhoodScreen';
-import NeighborhoodClassScreen from './src/screens/NeighborhoodClassScreen';
-import TestState from './src/screens/TestState';
-import DoorLockScreen from './src/screens/DoorLockScreen';
-import {createDrawerNavigator} from 'react-navigation-drawer';
+import AppIntroSlider from 'react-native-app-intro-slider';
 
 import {
   ApplicationProvider,
@@ -160,7 +154,6 @@ const App = () => (
   //   logoImage={require('./assets/images/logo.png')}
   //   backgroundColor={'#262626'}
   //   logoHeight={150}
-
   <ApplicationProvider mapping={mapping} theme={theme}>
     <Provider store={store}>
       <AppContainer />
@@ -168,6 +161,7 @@ const App = () => (
   </ApplicationProvider>
   // </AnimatedSplash>
 );
+
 export default App;
 
 // createAppContainer(MainStack)

@@ -7,13 +7,13 @@ import React from 'react';
 //   createAppContainer,
 // } from 'react-navigation';
 
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator, DrawerItems} from 'react-navigation-drawer';
 
 import HomeScreen from '../../src/screens/HomeScreen';
 import GestureScreen from '../../src/screens/GestureScreen';
-import NeighborhoodScreen from '../../src/screens/NeighborhoodScreen';
+
 import NeighborhoodClassScreen from '../../src/screens/NeighborhoodClassScreen';
 import TestState from '../../src/screens/TestState';
 import DoorLockScreen from '../../src/screens/DoorLockScreen';
@@ -38,6 +38,7 @@ import {
 
 import {fromBottom} from 'react-navigation-transitions';
 import TestIndoorScreen from '../screens/TestIndoorScreen';
+import IntroScreen from '../screens/IntroScreen';
 // import {DrawerItems} from 'react-navigation-drawer';
 
 class DrawerExample extends React.Component {
@@ -130,10 +131,12 @@ const CustomDrawerComponent = props => (
 //     },
 //   );
 
+const IntroStack = createStackNavigator({Intro: IntroScreen});
+
 const MainStackNavigator = createStackNavigator(
   {
     //All the screen from the Screen1 will be indexed here
-    First: {
+    Home: {
       screen: HomeScreen,
       navigationOptions: ({navigation}) => ({
         // headerTitle: (
@@ -207,7 +210,7 @@ const MainStackNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: 'First',
+    initialRouteName: 'Home',
     transitionConfig: () => fromBottom(700),
     defaultNavigationOptions: {
       headerBackImage: (
@@ -319,5 +322,17 @@ const DrawerNavigatorExample = createDrawerNavigator(
   },
 );
 
-const AppContainer = createAppContainer(DrawerNavigatorExample);
+// const AppContainer = createAppContainer(DrawerNavigatorExample);
+const AppContainer = createAppContainer(
+  createSwitchNavigator(
+    {
+      Intro: IntroStack,
+      App: DrawerNavigatorExample,
+    },
+    {
+      initialRouteName: 'Intro',
+      backBehavior: 'history',
+    },
+  ),
+);
 export default AppContainer;

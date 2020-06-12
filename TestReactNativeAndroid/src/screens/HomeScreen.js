@@ -9,92 +9,47 @@ import {
   ToastAndroid,
 } from 'react-native';
 import React, {useEffect} from 'react';
-import bgImage from '../../assets/images/bg3.jpg';
-import logo from '../../assets/images/logo.png';
-import Video from 'react-native-video';
 
 import MenuItems from '../components/MenuItems';
 
 import firebase from 'react-native-firebase';
 
-import {Card, Text} from '@ui-kitten/components';
 import {theme} from '../constants';
 
 const HomeScreen = ({navigation}) => {
   useEffect(() => {
+    requestUserPermission();
     //Listen for FCM
     firebase.notifications().onNotification(notification => {
-      // console.log(JSON.stringify(notification));
-      console.log(notification);
-      this.displayNotification(notification);
+      console.log('notification');
+      displayNotification(notification);
     });
 
-    firebase
-      .messaging()
-      .hasPermission()
-      .then(enabled => {
-        if (enabled) {
-          // user has permissions
-
-          // firebase
-          //   .messaging()
-          //   .getToken()
-          //   .then(fcmToken => {
-          //     if (fcmToken) {
-          //       // user has a device token
-          //       console.log('Token ' + fcmToken);
-          //       firebase
-          //         .database()
-          //         .ref('/users/' + Math.floor(141))
-          //         .set({
-          //           email: 'farhan.hammad@gmail.com',
-          //           notification_token: fcmToken,
-          //           created_at: Date.now(),
-          //         })
-          //         .then(res => {
-          //           console.log(res);
-          //         });
-          //     } else {
-          //       alert("User doesn't have a device token yet.");
-          //       console.log('No Token');
-          //     }
-          //   });
-
-          firebase.messaging().subscribeToTopic('smarthometest');
-        } else {
-          // user doesn't have permission
-          firebase
-            .messaging()
-            .requestPermission()
-            .then(() => {
-              // User has authorised
-              alert('You will get notifications for Neighborhood Watch');
-              firebase.messaging().subscribeToTopic('smarthometest');
-            })
-            .catch(error => {
-              // User has rejected permissions
-              alert('You will not get notifications for Neighborhood Watch');
-            });
-        }
-      });
-
-    //Display Notifications in Foreground
-    displayNotification = notification => {
-      const localNotification = new firebase.notifications.Notification({
-        show_in_foreground: true,
-      })
-        .setNotificationId(notification._notificationId)
-        .setTitle(notification._title)
-        .setBody(notification._body)
-        .android.setChannelId('test-channel')
-        .android.setBigText(notification.data._body)
-        .android.setPriority(firebase.notifications.Android.Priority.High);
-
-      firebase
-        .notifications()
-        .displayNotification(localNotification)
-        .catch(err => console.error(err));
-    };
+    // firebase
+    //   .messaging()
+    //   .hasPermission()
+    //   .then(enabled => {
+    //     if (enabled) {
+    //       // user has permissions
+    //       firebase.messaging().subscribeToTopic('smarthometest');
+    //       firebase.messaging().subscribeToTopic('indoorcam');
+    //     } else {
+    //       // user doesn't have permission
+    //       firebase
+    //         .messaging()
+    //         .requestPermission()
+    //         .then(() => {
+    //           // User has authorised
+    //           alert('You will get all notifications.');
+    //           firebase.messaging().subscribeToTopic('smarthometest');
+    //           firebase.messaging().subscribeToTopic('indoorcam');
+    //         })
+    //         .catch(error => {
+    //           // User has rejected permissions
+    //           alert('You will not get any notifications.');
+    //         });
+    //     }
+    //   });
 
     //   // this.onTokenRefreshListener = firebase
     //   //   .messaging()
@@ -102,14 +57,114 @@ const HomeScreen = ({navigation}) => {
     //   //     // Process your token as required
     //   //     console.log(fcmToken);
     //   //   });
+    const neighborhoodChannel = new firebase.notifications.Android.Channel(
+      'smart-home-neighborhood',
+      'Outdoor Security Channel',
+      firebase.notifications.Android.Importance.Max,
+    ).setDescription('Smart Home Security System Neighborhood Watch');
+    const indoorChannel = new firebase.notifications.Android.Channel(
+      'smart-home-indoor',
+      'Indoor Security Channel',
+      firebase.notifications.Android.Importance.Max,
+    ).setDescription('Smart Home Security System Indoor Cam');
+    const channel = new firebase.notifications.Android.Channel(
+      'smart-home-pattern',
+      'Devices Channel',
+      firebase.notifications.Android.Importance.Max,
+    ).setDescription('Smart Home Security System Devices Alert');
+    firebase.notifications().android.createChannel(indoorChannel);
+    firebase.notifications().android.createChannel(channel);
+    firebase.notifications().android.createChannel(neighborhoodChannel);
 
-    //   const channel = new firebase.notifications.Android.Channel(
-    //     'test-channel',
-    //     'Test Channel',
-    //     firebase.notifications.Android.Importance.Max,
-    //   ).setDescription('Neighboorhood Test');
-    //   firebase.notifications().android.createChannel(channel);
-  });
+    //Navigate to screen on click of push notification from foreground
+    firebase.notifications().onNotificationOpened(notificationOpen => {
+      const {channelId} = notificationOpen.notification._data;
+      console.log('onNoficiationOpen' + notificationOpen);
+      if (channelId === 'smart-home-indoor') {
+        navigation.navigate('Indoor');
+      } else if (channelId === 'smart-home-pattern') {
+        navigation.navigate('OtherControls');
+      } else if (channelId === 'smart-home-neighborhood') {
+        navigation.navigate('Neighborhood');
+      }
+      // notificationOpen.notification.android.setAutoCancel(true);
+      // else if (_title.includes('Suspicious')){
+      //   navigation.navigate('Neighborhood');
+      // }
+
+      // firebase
+      //   .notifications()
+      //   .removeDeliveredNotification(notification.notificationId);
+    });
+
+    // Navigate to screen on click of push notification from background/quit state
+    firebase
+      .notifications()
+      .getInitialNotification()
+      .then(notificationOpen => {
+        const {channelId} = notificationOpen.notification._data;
+        if (channelId === 'smart-home-indoor') {
+          navigation.navigate('Indoor');
+          notificationOpen.notification.android.setAutoCancel(true);
+        } else if (channelId === 'smart-home-pattern') {
+          navigation.navigate('OtherControls');
+          notificationOpen.notification.android.setAutoCancel(true);
+        } else if (channelId === 'smart-home-neighborhood') {
+          navigation.navigate('Neighborhood');
+        }
+        console.log('getInitial' + notificationOpen.notification);
+        // }
+      });
+
+    //Display Notifications in Foreground
+    const displayNotification = notification => {
+      console.log('displayNotification' + notification);
+      const localNotification = new firebase.notifications.Notification({
+        show_in_foreground: true,
+      })
+        .setNotificationId(notification._notificationId)
+        .setTitle(notification._title)
+        .setBody(notification._body)
+        .setData(notification._data)
+        .android.setChannelId('smart-home')
+        .android.setBigText(notification.data._body)
+        .android.setSmallIcon('@mipmap/ic_transparent')
+        .android.setPriority(firebase.notifications.Android.Priority.High);
+
+      firebase
+        .notifications()
+        .displayNotification(localNotification)
+        .catch(err => console.error(err));
+    };
+  }, []);
+
+  const requestUserPermission = () => {
+    firebase
+      .messaging()
+      .hasPermission()
+      .then(enabled => {
+        if (enabled) {
+          // user has permissions
+          firebase.messaging().subscribeToTopic('smarthometest');
+          firebase.messaging().subscribeToTopic('indoorcam');
+        } else {
+          // user doesn't have permission
+          firebase
+            .messaging()
+            .requestPermission()
+            .then(() => {
+              // User has authorised
+              alert('You will get all notifications.');
+              firebase.messaging().subscribeToTopic('smarthometest');
+              firebase.messaging().subscribeToTopic('indoorcam');
+            })
+            .catch(error => {
+              // User has rejected permissions
+              alert('You will not get any notifications.');
+            });
+        }
+      });
+  };
 
   // TODO: Max 3 per row. Set menuitems style
   return (
@@ -142,20 +197,20 @@ const HomeScreen = ({navigation}) => {
           name="OtherControls"
         />
       </View>
-      <View style={styles.viewStyle}>
-        {/* <MenuItems
+      {/* <View style={styles.viewStyle}>
+        <MenuItems
           title="Other Controls"
           imageSource={require('../../assets/images/fan.png')}
           navigation={navigation}
-          name="DoorLock"
-        /> */}
+          name="TestAssistant"
+        />
         <MenuItems
           title="Indoor Camera"
           imageSource={require('../../assets/images/indoor.png')}
           navigation={navigation}
           name="TestIndoor"
         />
-      </View>
+      </View> */}
     </View>
   );
 };

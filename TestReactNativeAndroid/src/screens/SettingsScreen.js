@@ -1,4 +1,12 @@
-import {StyleSheet, View, ImageBackground, ToastAndroid} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  ToastAndroid,
+  Switch,
+  ActivityIndicator,
+  RefreshControl,
+} from 'react-native';
 
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -11,6 +19,8 @@ import bgImage from '../../assets/images/bg3.jpg';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon5 from 'react-native-vector-icons/FontAwesome5';
 
+import {Toggle} from '@ui-kitten/components';
+
 import {
   getNodeHealthStatus,
   getFlaskHealthStatus,
@@ -18,17 +28,113 @@ import {
 import {TouchableOpacity, ScrollView} from 'react-native-gesture-handler';
 
 import {Block, Text} from '../components';
+import firebase from 'react-native-firebase';
 
 class SettingsScreen extends Component {
   componentDidMount() {
     this.props.getNodeHealthStatus();
     this.props.getFlaskHealthStatus();
+    this.onScreenFocus();
+    this.props.navigation.addListener('didFocus', this.onScreenFocus);
   }
   constructor(props) {
     super(props);
+    this.state = {
+      isLoading: true,
+      patternStatus: false,
+      pattern: '',
+    };
   }
 
-  render() {
+  // ScreenFocus Listener Method
+  onScreenFocus = () => {
+    this.setState({
+      isLoading: true,
+    });
+    firebase
+      .database()
+      .ref('sensorstatus/pattern')
+      .once('value')
+      .then(snapshot => {
+        this.setState({
+          pattern: snapshot.val(),
+
+          // refreshing: false,
+        });
+
+        if (this.state.pattern === '0') {
+          this.setState({
+            patternStatus: false,
+            isLoading: false,
+          });
+        } else if (this.state.pattern === '1') {
+          this.setState({
+            patternStatus: true,
+            isLoading: false,
+          });
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
+  // RefreshControl Method
+  onRefresh = () => {
+    this.setState(
+      {
+        refreshing: true,
+      },
+      () => this.onScreenFocus(),
+    );
+  };
+
+  onChange = () => {
+    console.log(this.state);
+    if (this.state.pattern === '0') {
+      this.setState(
+        {
+          pattern: '1',
+          patternStatus: true,
+        },
+        () => {
+          firebase
+            .database()
+            .ref('sensorstatus/')
+            .update({
+              pattern: this.state.pattern,
+            });
+        },
+      );
+    } else {
+      this.setState(
+        {
+          pattern: '0',
+          patternStatus: false,
+        },
+        () => {
+          firebase
+            .database()
+            .ref('sensorstatus/')
+            .update({
+              pattern: this.state.pattern,
+            });
+        },
+      );
+    }
+  };
+
+  renderLoading() {
+    return (
+      <Block middle>
+        <ActivityIndicator
+          animating={this.state.isLoading}
+          size="large"
+          style={styles.activityIndicator}
+        />
+      </Block>
+    );
+  }
+
+  renderSettings() {
     console.log(this.props.serverHealth.flaskStatus.server);
     const {nodeStatus, flaskStatus} = this.props.serverHealth;
     let nodeStatusComponent, flaskStatusComponent;
@@ -92,26 +198,82 @@ class SettingsScreen extends Component {
     return (
       <ScrollView style={styles.backgroundContainer}>
         <Block>
+          <Block style={{marginBottom: theme.sizes.base}}>
+            <Text spacing={0.4} bold gray>
+              Server Status
+            </Text>
+          </Block>
           <Block row style={styles.block}>
             <Block center>
-              <Text bold spacing={0.4}>
-                Node Server Status:
-              </Text>
+              <Text spacing={0.6}>Node Server:</Text>
             </Block>
-            <Block right>{nodeStatusComponent}</Block>
+            <Block center>{nodeStatusComponent}</Block>
           </Block>
-          <Block
-            row
-            style={{marginTop: 5, backgroundColor: theme.colors.gray3}}>
+          <Block row style={{marginTop: 5}}>
             <Block center>
-              <Text bold spacing={0.4}>
-                Flask Server Status:
+              <Text spacing={0.6}>Flask Server:</Text>
+            </Block>
+            <Block center>{flaskStatusComponent}</Block>
+          </Block>
+        </Block>
+        <Block color="gray2" style={styles.hLine} />
+
+        <Block>
+          <Block style={{marginBottom: theme.sizes.base}}>
+            <Text spacing={0.4} bold gray>
+              Application Settings
+            </Text>
+          </Block>
+          <Block row style={{marginTop: 5}}>
+            <Block middle center>
+              <Text
+                spacing={0.8}
+
+                // {...this.state.doorButtonTextColor}
+              >
+                Smart Routine
               </Text>
             </Block>
-            <Block right>{flaskStatusComponent}</Block>
+
+            <Block center>
+              {/* <Toggle style={styles.toggle} checked={true} onChange={true}>
+              Active
+            </Toggle> */}
+              <Switch
+                // trackColor={{false: '#767577', true: '#81b0ff'}}
+                // thumbColor={true ? '#f5dd4b' : '#f4f3f4'}
+                onValueChange={this.onChange}
+                value={this.state.patternStatus}
+              />
+            </Block>
+          </Block>
+
+          <Block style={{padding: 0, marginLeft: 40, marginRight: 60}}>
+            <Text spacing={0.4} gray2 justify caption>
+              Smart Routine turns on lights and fans automatically based on the
+              time you arrive at your home
+            </Text>
           </Block>
         </Block>
       </ScrollView>
+    );
+  }
+
+  render() {
+    let loadingComponent, settingsComponent;
+    if (this.state.isLoading) {
+      loadingComponent = this.renderLoading();
+      settingsComponent = null;
+    } else {
+      loadingComponent = null;
+      settingsComponent = this.renderSettings();
+    }
+
+    return (
+      <React.Fragment>
+        {loadingComponent}
+        {settingsComponent}
+      </React.Fragment>
     );
   }
 }
@@ -119,8 +281,6 @@ class SettingsScreen extends Component {
 const styles = StyleSheet.create({
   backgroundContainer: {
     flex: 1,
-    width: null,
-    height: null,
     paddingVertical: theme.sizes.padding,
     paddingHorizontal: theme.sizes.padding,
     backgroundColor: theme.colors.gray4,
@@ -128,8 +288,14 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // justifyContent: 'space-evenly',
   },
-  block: {
-    backgroundColor: theme.colors.gray3,
+  block: {marginTop: 5},
+  hLine: {
+    marginVertical: theme.sizes.base,
+    marginHorizontal: theme.sizes.base * 2,
+    height: 1,
+  },
+  toggle: {
+    margin: 2,
   },
 });
 

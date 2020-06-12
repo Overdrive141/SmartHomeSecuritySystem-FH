@@ -89,7 +89,7 @@ class IntroScreen extends Component {
       );
     } else {
       // TODO: Change false to true in production
-      if (this.state.showMainApp === false) {
+      if (this.state.showMainApp === true) {
         this.props.navigation.navigate('App');
         return null;
       } else {

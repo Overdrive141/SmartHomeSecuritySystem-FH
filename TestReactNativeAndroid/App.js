@@ -13,7 +13,7 @@ import store from './src/store';
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'remote-redux-devtools';
 
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -52,6 +52,8 @@ import {
   Text,
 } from '@ui-kitten/components';
 import {mapping, light as theme} from '@eva-design/eva';
+
+import firebase, {Notification, NotificationOpen} from 'react-native-firebase';
 
 // import AnimatedSplash from 'react-native-animated-splash-screen';
 
@@ -148,20 +150,21 @@ import AppContainer from './src/navigation/DrawerExample';
 //   }
 // }
 
-const App = () => (
-  // <AnimatedSplash
-  //   isLoaded={this.state.isLoaded}
-  //   logoImage={require('./assets/images/logo.png')}
-  //   backgroundColor={'#262626'}
-  //   logoHeight={150}
-  <ApplicationProvider mapping={mapping} theme={theme}>
-    <Provider store={store}>
-      <AppContainer />
-    </Provider>
-  </ApplicationProvider>
-  // </AnimatedSplash>
-);
-
+const App = () => {
+  return (
+    // <AnimatedSplash
+    //   isLoaded={this.state.isLoaded}
+    //   logoImage={require('./assets/images/logo.png')}
+    //   backgroundColor={'#262626'}
+    //   logoHeight={150}
+    <ApplicationProvider mapping={mapping} theme={theme}>
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
+    </ApplicationProvider>
+    // </AnimatedSplash>
+  );
+};
 export default App;
 
 // createAppContainer(MainStack)

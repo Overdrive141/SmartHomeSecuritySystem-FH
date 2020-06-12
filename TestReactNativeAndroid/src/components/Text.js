@@ -115,6 +115,8 @@ const styles = StyleSheet.create({
   // position
   center: {textAlign: 'center'},
   right: {textAlign: 'right'},
+  left: {textAlign: 'left'},
+  justify: {textAlign: 'justify'},
   // colors
   accent: {color: theme.colors.accent},
   primary: {color: theme.colors.primary},

@@ -19,6 +19,7 @@ import TestState from '../../src/screens/TestState';
 import DoorLockScreen from '../../src/screens/DoorLockScreen';
 import SettingsScreen from '../../src/screens/SettingsScreen';
 import OtherControlsScreen from '../../src/screens/OtherControlsScreen';
+import TestAssistant from '../../src/screens/TestAssistant';
 
 import {MenuButton, Logo} from '../components/HeaderTitle';
 import {DrawerActions} from 'react-navigation-drawer';
@@ -26,7 +27,6 @@ import {Text} from '../components';
 
 import {Icon} from 'native-base';
 
-// import {TouchableOpacity} from 'react-native-gesture-handler';
 import {
   View,
   Image,
@@ -37,7 +37,7 @@ import {
 } from 'react-native';
 
 import {fromBottom} from 'react-navigation-transitions';
-import TestIndoorScreen from '../screens/TestIndoorScreen';
+import IndoorScreen from '../screens/IndoorScreen';
 import IntroScreen from '../screens/IntroScreen';
 // import {DrawerItems} from 'react-navigation-drawer';
 
@@ -146,6 +146,7 @@ const MainStackNavigator = createStackNavigator(
         // ),
         title: 'Smart Home Security System',
         headerLeft: <DrawerExample navigationProps={navigation} />,
+
         // headerTintColor: '#0ba8e6',
       }),
     },
@@ -190,8 +191,8 @@ const MainStackNavigator = createStackNavigator(
         // headerRight: <DrawerExample navigationProps={navigation} />,
       }),
     },
-    TestIndoor: {
-      screen: TestIndoorScreen,
+    Indoor: {
+      screen: IndoorScreen,
       navigationOptions: ({navigation}) => ({
         title: 'Indoor Camera',
       }),
@@ -207,6 +208,9 @@ const MainStackNavigator = createStackNavigator(
       navigationOptions: ({navigation}) => ({
         title: 'Control Center',
       }),
+    },
+    TestAssistant: {
+      screen: TestAssistant,
     },
   },
   {

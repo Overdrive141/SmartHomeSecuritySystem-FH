@@ -698,9 +698,12 @@ const mapStateToProps = state => ({
   // detection: state.detection,
 });
 
-export default connect(mapStateToProps, {
-  getStream,
-  killStream,
-  startDetection,
-  stopDetection,
-})(NeighborhoodClassScreen);
+export default connect(
+  mapStateToProps,
+  {
+    getStream,
+    killStream,
+    startDetection,
+    stopDetection,
+  },
+)(NeighborhoodClassScreen);

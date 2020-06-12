@@ -20,13 +20,10 @@ import React, {useState, useReducer, useEffect, Component} from 'react';
 
 import {theme} from '../constants';
 
-import {Block, Badge, Card, Text} from '../components';
-
-import VideoPlayer from '../components/VideoPlayer';
-
 // TODO: Set Loading Container in WebView
+// TODO: On Back Button Set Indoor To 0 in Firebase RTDB
 
-class TestIndoorScreen extends Component {
+class IndoorScreen extends Component {
   render() {
     return (
       <ScrollView style={styles.welcome}>
@@ -105,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TestIndoorScreen;
+export default IndoorScreen;

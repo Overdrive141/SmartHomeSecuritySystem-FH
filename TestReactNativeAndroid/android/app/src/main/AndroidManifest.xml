@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
 
     <application
       android:name=".MainApplication"
@@ -14,6 +16,7 @@
       android:roundIcon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:theme="@style/SplashTheme"
+      android:usesCleartextTraffic="true"
       >
       <meta-data android:name="com.google.firebase.messaging.default_notification_icon" 
                  android:resource="@mipmap/ic_transparent" />

@@ -1,3 +1,5 @@
+import {PixelRatio} from 'react-native';
+
 const colors = {
   accent: '#FF4957',
   primary: '#27A9FF',
@@ -11,22 +13,61 @@ const colors = {
   gray4: '#F7F8FA',
 };
 
+let BASE = 16;
+let FONT = 14;
+let BORDER = 15;
+let PADDING = 25;
+let FONT_H1 = 39;
+let FONT_H2 = 29;
+let FONT_H3 = 19;
+let FONT_H4 = 15;
+let FONT_TITLE = 18;
+let FONT_HEADER = 24;
+let FONT_BODY = 12;
+let FONT_CAPTION = 11;
+let FONT_SMALL = 8;
+let SCALE_X = 1;
+let SCALE_Y = 1;
+
+if (PixelRatio.get() >= 2 && PixelRatio.get() <= 3) {
+  BASE = 12;
+  FONT = 11;
+  BORDER = 11;
+  PADDING = 20;
+  FONT_H1 = 35;
+  FONT_H2 = 25;
+  FONT_H3 = 15;
+  FONT_H4 = 11;
+  FONT_TITLE = 14;
+  FONT_HEADER = 20;
+  FONT_BODY = 9;
+  FONT_CAPTION = 8;
+  FONT_SMALL = 6;
+  SCALE_X = 0.8;
+  SCALE_Y = 0.8;
+}
+
 const sizes = {
   // global sizes
-  base: 16,
-  font: 14,
-  border: 15,
-  padding: 25,
+  base: BASE,
+  font: FONT,
+  border: BORDER,
+  padding: PADDING,
 
   // font sizes
-  h1: 39,
-  h2: 29,
-  h3: 19,
-  title: 18,
-  header: 24,
-  body: 12,
-  caption: 12,
-  small: 8,
+  h1: FONT_H1,
+  h2: FONT_H2,
+  h3: FONT_H3,
+  h4: FONT_H4,
+  title: FONT_TITLE,
+  header: FONT_HEADER,
+  body: FONT_BODY,
+  caption: FONT_CAPTION,
+  small: FONT_SMALL,
+
+  // Switch Transform
+  scaleX: SCALE_X,
+  scaleY: SCALE_Y,
 };
 
 const fonts = {

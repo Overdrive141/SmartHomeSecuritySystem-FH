@@ -14,9 +14,6 @@ import {
   Modal,
   ToastAndroid,
 } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
-import ProgressBar from 'react-native-progress/Bar';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
@@ -32,26 +29,13 @@ import {
 
 import firebase from 'react-native-firebase';
 
-import {RemoteMessage} from 'react-native-firebase';
-
-import ToggleSwitch from 'toggle-switch-react-native';
-import SwitchToggle from '@dooboo-ui/native-switch-toggle';
-
 import React, {useState, useReducer, useEffect, Component} from 'react';
 
 import {Block, Badge, Card, Text} from '../components';
 import {styles as blockStyles} from '../components/Block';
 import {styles as cardStyles} from '../components/Card';
-// import {theme} from '../constants';
-// import Video from 'react-native-video';
-// import VideoPlayer from 'react-native-video-controls';
+
 import VideoPlayer from '../components/VideoPlayer';
-
-import socketIO from 'socket.io-client';
-
-import useAxios from 'axios-hooks';
-
-import {Toggle} from '@ui-kitten/components';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -64,31 +48,9 @@ class NeighborhoodClassScreen extends Component {
       streamButton: false,
       detectionButton: false,
     };
-    this.socket = socketIO('http://192.168.200.31:3000', {
-      transports: ['websocket'],
-      jsonp: false,
-    });
   }
-  //   componentDidMount() {
-  //     this.state = {loading: false};
-  //   }
 
   componentDidMount() {
-    // const socket = socketIO('http://192.168.200.31:3000', {
-    //   transports: ['websocket'],
-    //   jsonp: false,
-    // });
-    // socket.connect();
-    // socket.on('connect', () => {
-    //   console.log('connected to socket sv');
-    // });
-    // socket.on('logentry', function(message) {
-    //   console.log(message);
-    // });
-    // socket.on('disconnect', function() {
-    //   console.log('user disconnected');
-    // });
-
     // Fetch Button State from Store
     try {
       AsyncStorage.getItem('stream_state').then(data => {
@@ -120,147 +82,7 @@ class NeighborhoodClassScreen extends Component {
         ToastAndroid.LONG,
       );
     }
-
-    //Listen for FCM
-    this.notificationListener = firebase
-      .notifications()
-      .onNotification(notification => {
-        // console.log(JSON.stringify(notification));
-        console.log(notification);
-        this.displayNotification(notification);
-      });
-    //22
-    // this.removeNotificationDisplayedListener = firebase
-    //   .notifications()
-    //   .onNotificationDisplayed(notification => {
-    //     // Process your notification as required
-    //     // console.log(JSON.stringify(notification));
-    //     console.log(notification + '3');
-    //     // this.displayNotification(notification);
-    //     // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
-    //   });
-    // this.removeNotificationListener = firebase
-    //   .notifications()
-    //   .onNotification(notification => {
-    //     // Process your notification as required
-    //     // console.log(JSON.stringify(notification));
-    //     console.log(notification);
-    //     this.displayNotification(notification);
-    //   });
-
-    // Notifications Firebase
-    firebase
-      .messaging()
-      .hasPermission()
-      .then(enabled => {
-        if (enabled) {
-          // user has permissions
-          firebase
-            .messaging()
-            .getToken()
-            .then(fcmToken => {
-              if (fcmToken) {
-                // user has a device token
-                console.log('Token ' + fcmToken);
-                firebase
-                  .database()
-                  .ref('/users/' + Math.floor(141))
-                  .set({
-                    email: 'farhan.hammad@gmail.com',
-                    notification_token: fcmToken,
-                    created_at: Date.now(),
-                  })
-                  .then(res => {
-                    console.log(res);
-                  });
-              } else {
-                alert("User doesn't have a device token yet.");
-                console.log('No Token');
-              }
-            });
-        } else {
-          // user doesn't have permission
-          firebase
-            .messaging()
-            .requestPermission()
-            .then(() => {
-              // User has authorised
-              alert('You will get notifications for Neighborhood Watch');
-            })
-            .catch(error => {
-              // User has rejected permissions
-              alert('You will not get notifications for Neighborhood Watch');
-            });
-        }
-      });
-
-    // this.onTokenRefreshListener = firebase
-    //   .messaging()
-    //   .onTokenRefresh(fcmToken => {
-    //     // Process your token as required
-    //     console.log(fcmToken);
-    //   });
-
-    const channel = new firebase.notifications.Android.Channel(
-      'test-channel',
-      'Test Channel',
-      firebase.notifications.Android.Importance.Max,
-    ).setDescription('Neighboorhood Test');
-    firebase.notifications().android.createChannel(channel);
   }
-
-  //Socket Connections
-  onSocketConnection() {
-    this.socket.connect();
-    this.socket.on('connect', () => {
-      console.log('connected to socket sv');
-    });
-    this.socket.on('logentry', function(message) {
-      console.log(message);
-    });
-    this.socket.on('disconnect', function() {
-      console.log('user disconnected');
-    });
-  }
-
-  onSocketDisconnection() {
-    this.socket.disconnect();
-  }
-
-  //Display Notifications in Foreground
-  displayNotification = notification => {
-    const localNotification = new firebase.notifications.Notification({
-      show_in_foreground: true,
-    })
-      .setNotificationId(notification._notificationId)
-      .setTitle(notification._title)
-      .setBody(notification._body)
-      .android.setChannelId('test-channel')
-      .android.setBigText(notification.data._body)
-      .android.setPriority(firebase.notifications.Android.Priority.High);
-
-    firebase
-      .notifications()
-      .displayNotification(localNotification)
-      .catch(err => console.error(err));
-  };
-
-  //Display Dummy Notification
-
-  // displayNotification = notification => {
-  //   const localNotification = new firebase.notifications.Notification({
-  //     show_in_foreground: true,
-  //   })
-  //     .setNotificationId('123')
-  //     .setTitle('Hi')
-  //     .setBody('lul')
-  //     .setData({
-  //       key1: '1',
-  //     })
-  //     .android.setChannelId('test-channel');
-
-  //   firebase.notifications().displayNotification(localNotification);
-  // };
 
   render() {
     // console.log(this.props);
@@ -272,49 +94,17 @@ class NeighborhoodClassScreen extends Component {
     let switchButton1Component;
     let switchButton2Component;
 
-    // const onCheckedChange = () => {
-    //   this.setState({
-    //     streamButton: !this.state.streamButton,
-    //     loadingV: false,
-    //     streamButton: false,
-    //   });
-    //   AsyncStorage.setItem('stream_state', 'false');
-    //   console.log(this.state.streamButton);
-    //   this.props.killStream();
-    // };
-
     if (this.state.streamButton === true) {
       switchButton1Component = (
-        <SwitchToggle
-          containerStyle={{
-            marginTop: 0,
-            width: 45,
-            height: 20,
-            borderRadius: 30,
-            padding: 0,
-          }}
-          backgroundColorOn="green"
-          backgroundColorOff="black"
-          backTextRight=""
-          circleStyle={{
-            width: 20,
-            height: 20,
-            borderRadius: 27.5,
-            backgroundColor: 'black', // rgb(102,134,205)
-          }}
-          // switchOn={true}
-          switchOn={this.state.streamButton}
-          onPress={() => {
+        <Switch
+          style={styles.switchButton}
+          onValueChange={() => {
             this.setState({loadingV: false, streamButton: false});
             AsyncStorage.setItem('stream_state', 'false');
-            console.log(this.state.streamButton);
             this.props.killStream();
           }}
-          circleColorOff="white"
-          circleColorOn="white"
-          duration={500}
+          value={this.state.streamButton}
         />
-        // <Toggle checked={this.state.streamButton} onChange={onCheckedChange} />
       );
 
       videoPlayerComponent = (
@@ -342,11 +132,6 @@ class NeighborhoodClassScreen extends Component {
               disableVolume
               disableBack
               disableTimer
-
-              // controls={true}
-              // onError={onError}
-
-              // onBuffer={this.setLoading((loading = false))}
             />
           </Card>
         </ScrollView>
@@ -354,280 +139,104 @@ class NeighborhoodClassScreen extends Component {
     } else {
       videoPlayerComponent = null;
       switchButton1Component = (
-        <SwitchToggle
-          containerStyle={{
-            marginTop: 0,
-            width: 45,
-            height: 20,
-            borderRadius: 30,
-            padding: 0,
-          }}
-          backgroundColorOn="green"
-          backgroundColorOff="black"
-          backTextRight=""
-          circleStyle={{
-            width: 20,
-            height: 20,
-            borderRadius: 27.5,
-            borderColor: 'black',
-            backgroundColor: 'black', // rgb(102,134,205)
-          }}
-          // switchOn={false}
-          switchOn={this.state.streamButton}
-          onPress={() => {
+        <Switch
+          style={styles.switchButton}
+          onValueChange={() => {
             this.setState({loadingV: true, streamButton: true});
             AsyncStorage.setItem('stream_state', 'true');
-
             this.props.getStream();
           }}
-          circleColorOff="white"
-          circleColorOn="white"
-          duration={500}
+          value={this.state.streamButton}
         />
-        // <Toggle
-        //   checked={this.state.streamButton}
-
-        //   onChange={onCheckedChange}
-        // />
       );
     }
     if (this.state.detectionButton === true) {
       switchButton2Component = (
-        <SwitchToggle
-          containerStyle={{
-            marginTop: 0,
-            width: 45,
-            height: 20,
-            borderRadius: 30,
-            padding: 0,
-          }}
-          backgroundColorOn="green"
-          backgroundColorOff="black"
-          backTextRight=""
-          circleStyle={{
-            width: 20,
-            height: 20,
-            borderRadius: 27.5,
-            backgroundColor: 'black', // rgb(102,134,205)
-          }}
-          switchOn={this.state.detectionButton}
-          onPress={() => {
+        <Switch
+          style={styles.switchButton}
+          onValueChange={() => {
             this.setState({detection: false, detectionButton: false});
             this.onSocketDisconnection();
             firebase
               .database()
               .ref('/')
-              .update({neighbor: 'Off'});
+              .update({neighbor: 'Off'})
+              .then(
+                setTimeout(() => {
+                  this.props.stopDetection();
+                }, 5000),
+              );
             AsyncStorage.setItem('detection_state', 'false');
-            this.props.stopDetection();
           }}
-          circleColorOff="white"
-          circleColorOn="white"
-          duration={500}
+          value={this.state.detectionButton}
         />
       );
     } else {
       switchButton2Component = (
-        <SwitchToggle
-          containerStyle={{
-            marginTop: 0,
-            width: 45,
-            height: 20,
-            borderRadius: 30,
-            padding: 0,
-          }}
-          backgroundColorOn="green"
-          backgroundColorOff="black"
-          backTextRight=""
-          circleStyle={{
-            width: 20,
-            height: 20,
-            borderRadius: 27.5,
-            backgroundColor: 'black', // rgb(102,134,205)
-          }}
-          switchOn={this.state.detectionButton}
-          onPress={() => {
+        <Switch
+          style={styles.switchButton}
+          onValueChange={() => {
             this.setState({detection: true, detectionButton: true});
             this.onSocketConnection();
             firebase
               .database()
               .ref('/')
-              .update({neighbor: 'On'});
+              .update({neighbor: 'On'})
+              .then(() => {
+                this.props.startDetection();
+              });
             AsyncStorage.setItem('detection_state', 'true');
-            this.props.startDetection();
-
-            // ToastAndroid.show(
-            //   'Please check Node Console to see real time updates. Real Time Notification is still under development',
-            //   ToastAndroid.LONG,
-            // );
           }}
-          circleColorOff="white"
-          circleColorOn="white"
-          duration={500}
+          value={this.state.detectionButton}
         />
       );
     }
 
     return (
-      // <ImageBackground source={bgImage} style={styles.backgroundContainer}>
-      <View
-        style={{
-          paddingVertical: theme.sizes.padding,
-          paddingHorizontal: theme.sizes.padding,
-          backgroundColor: theme.colors.gray4,
-          flex: 1,
-          width: null,
-          height: null,
-        }}>
-        {/* <Switch
-        onValueChange={() => console.log('value changed')}
-        value="Hi"
-        thumbColor="red"
-        trackColor="yellow"
-      /> */}
-        {/* <SwitchToggle
-        switchOn={spinner}
-        onPress={() => setSpinner(!spinner)}
-        backTextRight="On"
-      /> */}
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            alignSelf: 'center',
-            marginTop: 10,
-          }}>
-          <Text
-            style={{
-              marginHorizontal: 10,
-              color: 'black',
+      <ScrollView style={{backgroundColor: theme.colors.gray4}}>
+        <Block style={styles.blockContainer}>
+          <Block row>
+            <Block left flex={0.11} />
+            <Block left flex={1.4}>
+              <Text bold h4 spacing={0.5}>
+                Outdoor Live Stream
+              </Text>
+            </Block>
+            <Block center>{switchButton1Component}</Block>
+          </Block>
+          <Block row>
+            <Block left flex={0.05} />
+            <Block left flex={0.5}>
+              <Text spacing={0.5} gray justify caption>
+                You will receive a live stream of your front door camera
+              </Text>
+            </Block>
+            <Block center flex={0.05} />
+          </Block>
 
-              fontWeight: '900',
-              justifyContent: 'flex-start',
-            }}>
-            Neighborhood Watch Live Stream
-          </Text>
-          {/* <SwitchToggle
-            containerStyle={{
-              marginTop: 0,
-              width: 45,
-              height: 20,
-              borderRadius: 30,
-              padding: 0,
-            }}
-            backgroundColorOn="green"
-            backgroundColorOff="grey"
-            backTextRight=""
-            circleStyle={{
-              width: 20,
-              height: 20,
-              borderRadius: 27.5,
-              backgroundColor: 'black', // rgb(102,134,205)
-            }}
-            switchOn={true}
-            onPress={() => {
-              this.setState({loading: false});
-            }}
-            circleColorOff="white"
-            circleColorOn="white"
-            duration={500}
-          /> */}
-          {switchButton1Component}
-        </View>
+          <Block row style={{marginTop: 15}}>
+            <Block left flex={0.11} />
+            <Block left flex={1.4}>
+              <Text bold h4 spacing={0.5}>
+                Outdoor Human Detection
+              </Text>
+            </Block>
+            <Block center>{switchButton2Component}</Block>
+          </Block>
+          <Block row>
+            <Block left flex={0.05} />
+            <Block left flex={0.5}>
+              <Text spacing={0.5} gray justify caption>
+                You will be notified if anyone is detected outside your door for
+                an extended period of time by enabling this option
+              </Text>
+            </Block>
+          </Block>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            alignSelf: 'center',
-            marginTop: 10,
-          }}>
-          <Text
-            style={{
-              marginHorizontal: 10,
-              color: 'black',
-              fontWeight: '900',
-              justifyContent: 'flex-start',
-            }}>
-            Neighborhood Watch Detection
-          </Text>
-          {switchButton2Component}
-        </View>
-
-        {/* <View style={styles.videoContainer}> */}
-
-        {/* <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-        }}> */}
-        {/* <Spinner
-          visible={spinner}
-          style={styles.video}
-          // textContent={() => 'Hi'}
-          textContent={'Loading Neighborhood Stream...'}
-          textStyle={styles.spinnerTextStyle}
-          cancelable={true}
-        /> */}
-        {videoPlayerComponent}
-        {/* <VideoPlayer
-              videoStyle={styles.video}
-              style={styles.videoContainer}
-              source={{
-                uri: 'http://192.168.200.31:8160',
-              }}
-              resizeMode="contain"
-              navigator={navigator}
-              disableFullscreen
-              disableSeekbar
-              disableVolume
-              disableBack
-              disableTimer
-
-              // controls={true}
-              // onError={onError}
-
-              // onBuffer={this.setLoading((loading = false))}
-            /> */}
-
-        {/* </View> */}
-        {/* </ImageBackground> */}
-      </View>
+          {videoPlayerComponent}
+        </Block>
+      </ScrollView>
     );
-    // } else {
-    //   return (
-    //     <View>
-    //       <Text>Hi</Text>
-    //       <SwitchToggle
-    //         containerStyle={{
-    //           marginTop: 0,
-    //           width: 45,
-    //           height: 20,
-    //           borderRadius: 30,
-    //           padding: 0,
-    //         }}
-    //         backgroundColorOn="green"
-    //         backgroundColorOff="grey"
-    //         backTextRight=""
-    //         circleStyle={{
-    //           width: 20,
-    //           height: 20,
-    //           borderRadius: 27.5,
-    //           backgroundColor: 'black', // rgb(102,134,205)
-    //         }}
-    //         switchOn={false}
-    //         onPress={() => {
-    //           this.setState({loading: true});
-    //         }}
-    //         circleColorOff="white"
-    //         circleColorOn="white"
-    //         duration={500}
-    //       />
-    //     </View>
-    //   );
-    //}
   }
 }
 
@@ -673,6 +282,21 @@ const styles = StyleSheet.create({
 
     // justifyContent: 'center',
     // alignItems: 'center',
+  },
+  switchButton: {
+    transform: [
+      {
+        scaleX: theme.sizes.scaleX,
+      },
+      {
+        scaleY: theme.sizes.scaleY,
+      },
+    ],
+  },
+  blockContainer: {
+    // justifyContent: 'center',
+    padding: theme.sizes.padding,
+    margin: theme.sizes.base,
   },
 });
 

@@ -12,3 +12,5 @@ export const dialogflowConfig = {
   client_x509_cert_url:
     'https://www.googleapis.com/robot/v1/metadata/x509/fypsmarthomevoice%40testingshss.iam.gserviceaccount.com',
 };
+
+export const WEATHER_API_KEY = 'ba4ede5f1c8b5d84809d08fe7ccd2e26';

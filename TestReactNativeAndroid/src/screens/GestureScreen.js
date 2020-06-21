@@ -81,12 +81,12 @@ class GestureScreen extends Component {
   // Save New Gestures
   saveGestures() {
     if (
-      this.state.gesture1.length == 0 &&
-      this.state.gesture2.length == 0 &&
-      this.state.gesture3.length == 0 &&
+      this.state.gesture1.length == 0 ||
+      this.state.gesture2.length == 0 ||
+      this.state.gesture3.length == 0 ||
       this.state.gesture4.length == 0
     ) {
-      Alert.alert('Warning', 'No Gestures Have Been Set');
+      Alert.alert('Warning', 'You need to set a combination of 4 gestures.');
     } else {
       firebase
         .database()

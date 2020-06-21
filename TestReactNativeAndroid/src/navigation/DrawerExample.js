@@ -19,7 +19,6 @@ import TestState from '../../src/screens/TestState';
 import DoorLockScreen from '../../src/screens/DoorLockScreen';
 import SettingsScreen from '../../src/screens/SettingsScreen';
 import OtherControlsScreen from '../../src/screens/OtherControlsScreen';
-import TestAssistant from '../../src/screens/TestAssistant';
 
 import {MenuButton, Logo} from '../components/HeaderTitle';
 import {DrawerActions} from 'react-navigation-drawer';
@@ -208,9 +207,6 @@ const MainStackNavigator = createStackNavigator(
       navigationOptions: ({navigation}) => ({
         title: 'Control Center',
       }),
-    },
-    TestAssistant: {
-      screen: TestAssistant,
     },
   },
   {

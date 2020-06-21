@@ -21,10 +21,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     aspectRatio: 1.0,
-    margin: 8,
+    margin: 10,
+    marginTop: 20,
     maxWidth: Dimensions.get('window').width / 2 - 24,
     borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.44,
+    shadowRadius: 10.32,
 
+    elevation: 16,
     marginBottom: 16,
   },
 

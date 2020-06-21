@@ -226,22 +226,12 @@ class SettingsScreen extends Component {
           </Block>
           <Block row style={{marginTop: 5}}>
             <Block middle center>
-              <Text
-                spacing={0.8}
-
-                // {...this.state.doorButtonTextColor}
-              >
-                Smart Routine
-              </Text>
+              <Text spacing={0.8}>Smart Routine</Text>
             </Block>
 
             <Block center>
-              {/* <Toggle style={styles.toggle} checked={true} onChange={true}>
-              Active
-            </Toggle> */}
               <Switch
-                // trackColor={{false: '#767577', true: '#81b0ff'}}
-                // thumbColor={true ? '#f5dd4b' : '#f4f3f4'}
+                style={styles.switchButton}
                 onValueChange={this.onChange}
                 value={this.state.patternStatus}
               />
@@ -296,6 +286,16 @@ const styles = StyleSheet.create({
   },
   toggle: {
     margin: 2,
+  },
+  switchButton: {
+    transform: [
+      {
+        scaleX: theme.sizes.scaleX,
+      },
+      {
+        scaleY: theme.sizes.scaleY,
+      },
+    ],
   },
 });
 

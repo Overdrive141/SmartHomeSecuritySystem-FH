@@ -1,3 +1,7 @@
+# Credentials / Private Keys
 smart-home-firebase.json
 google-services.json
 env.js
+
+# dumps / memory
+*.hprof

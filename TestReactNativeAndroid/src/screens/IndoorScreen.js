@@ -18,42 +18,90 @@ import {WebView} from 'react-native-webview';
 
 import React, {useState, useReducer, useEffect, Component} from 'react';
 
+import {Block, Card, Text} from '../components';
+
 import {theme} from '../constants';
+import {HeaderBackButton} from 'react-navigation-stack';
+import firebase from 'react-native-firebase';
 
 // TODO: Set Loading Container in WebView
 // TODO: On Back Button Set Indoor To 0 in Firebase RTDB
 
 class IndoorScreen extends Component {
+  constructor(props) {
+    super(props);
+  }
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerLeft: (
+        <HeaderBackButton
+          onPress={() => {
+            firebase
+              .database()
+              .ref('sensorstatus/')
+              .update({indoor: '0'});
+            navigation.goBack();
+          }}
+        />
+      ),
+    };
+  };
   render() {
     return (
       <ScrollView style={styles.welcome}>
-        <View
+        <Block
           style={{
             overflow: 'hidden',
             flex: 1,
             borderRadius: 30,
-            margin: 15,
-            height: Dimensions.get('screen').height / 2,
+            margin: theme.sizes.base,
+            // height: Dimensions.get('screen').height / 2,
+            // shadowColor: '#000',
+            // shadowOffset: {
+            //   width: 0,
+            //   height: 2,
+            // },
+            // shadowOpacity: 0.3,
+            // shadowRadius: 4.65,
+            elevation: 5,
           }}>
-          {/* <Card
-            shadow
+          <Card
+            // shadow
             style={{
               height: Dimensions.get('screen').height / 2,
-              // overflow: 'hidden',
-              // flex: 1,
+              overflow: 'hidden',
+              flex: 1,
               borderTopLeftRadius: 12,
               borderTopRightRadius: 12,
               // width: Dimensions.get('screen').width,
-            }}> */}
-          <WebView
-            style={styles.video}
-            source={{uri: 'http://192.168.200.3:5000/video'}}
-            scalesPageToFit={false}
-            startInLoadingState={false}
-            javaScriptEnabled={false}
-          />
-          {/* </Card> */}
-        </View>
+              // shadowColor: '#000',
+              // shadowOffset: {
+              //   width: 0,
+              //   height: 4,
+              // },
+              // shadowOpacity: 0.3,
+              // shadowRadius: 4.65,
+
+              // elevation: 8,
+            }}>
+            <WebView
+              containerStyle={styles.videoContainer}
+              style={styles.video}
+              source={{uri: 'http://192.168.200.3:5000/video'}}
+              scalesPageToFit={false}
+              startInLoadingState={false}
+              javaScriptEnabled={false}
+              renderError={() => {
+                Alert.alert(
+                  'Oops',
+                  'Indoor stream was ended or encountered an error.',
+                  [{text: 'OK', onPress: () => this.props.navigation.goBack()}],
+                  {cancelable: false},
+                );
+              }}
+            />
+          </Card>
+        </Block>
       </ScrollView>
     );
   }

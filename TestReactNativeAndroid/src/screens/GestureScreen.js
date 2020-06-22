@@ -108,12 +108,18 @@ class GestureScreen extends Component {
         )
         .then(res => {
           console.log(res);
-          this.setState({
-            gesture1: '',
-            gesture2: '',
-            gesture3: '',
-            gesture4: '',
-          });
+          this.setState(
+            {
+              gesture1: '',
+              gesture2: '',
+              gesture3: '',
+              gesture4: '',
+              isVisibleSetOverlay: false,
+            },
+            () => {
+              this.fetchGestures();
+            },
+          );
         });
     }
   }
@@ -300,229 +306,243 @@ class GestureScreen extends Component {
     );
     return (
       <ScrollView style={styles.welcome} showsVerticalScrollIndicator={false}>
-        <Card shadow>
-          <Block>
-            <Block style={{marginBottom: 50}}>
-              <Block row>
-                <Block left />
+        <Block style={{padding: theme.sizes.base}}>
+          <Card
+            style={{
+              elevation: 5,
+              borderRadius: 15,
+              paddingHorizontal: theme.sizes.padding,
+              paddingVertical: theme.sizes.padding,
+            }}>
+            <Block>
+              <Block style={{marginBottom: 50}}>
+                <Block row>
+                  <Block left />
 
-                <Block center>
-                  <Button
-                    icon={AddIcon}
-                    appearance="outline"
-                    status="primary"
-                    size="tiny"
-                    textStyle={{
-                      letterSpacing: 0.3,
-                      textTransform: 'uppercase',
-                      fontFamily: 'Rubik-Regular',
-                    }}
-                    onPress={() =>
-                      this.setState({
-                        isVisibleSetOverlay: true,
-                        gesture1: '',
-                        gesture2: '',
-                        gesture3: '',
-                        gesture3: '',
-                        gesture4: '',
-                      })
-                    }>
-                    Set New Gesture
-                  </Button>
+                  <Block center>
+                    <Button
+                      icon={AddIcon}
+                      appearance="outline"
+                      status="primary"
+                      size="tiny"
+                      textStyle={{
+                        letterSpacing: 0.3,
+                        textTransform: 'uppercase',
+                        fontFamily: 'Rubik-Regular',
+                      }}
+                      onPress={() =>
+                        this.setState({
+                          isVisibleSetOverlay: true,
+                          gesture1: '',
+                          gesture2: '',
+                          gesture3: '',
+                          gesture3: '',
+                          gesture4: '',
+                        })
+                      }>
+                      Set New Gesture
+                    </Button>
+                  </Block>
                 </Block>
               </Block>
-            </Block>
-            <Block
-              style={{
-                alignSelf: 'center',
-              }}>
-              <Button2
-                icon={<Icon name="arrow-up" size={30} color="white" />}
-                onPress={() => this.onPress('^')}
-                disabled={true}
-              />
-              <Badge
-                value={this.setNumber('^')}
-                status="error"
-                containerStyle={{position: 'absolute', top: -4, right: -4}}
-              />
-            </Block>
-            <Block
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginBottom: 0,
-                marginTop: 0,
-              }}>
-              <Block middle flex={false} style={{marginLeft: 95}}>
-                <Button2
-                  icon={<Icon name="arrow-left" size={30} color="white" />}
-                  onPress={() => this.onPress('<')}
-                  disabled={true}
-                />
-                <Badge
-                  value={this.setNumber('<')}
-                  status="error"
-                  containerStyle={{position: 'absolute', top: -4, right: -4}}
-                />
-              </Block>
-
-              <Block middle flex={false} style={{marginRight: 95}}>
-                <Button2
-                  icon={<Icon name="arrow-right" size={30} color="white" />}
-                  onPress={() => this.onPress('>')}
-                  disabled={true}
-                />
-                <Badge
-                  value={this.setNumber('>')}
-                  status="error"
-                  containerStyle={{position: 'absolute', top: -4, right: -4}}
-                />
-              </Block>
-            </Block>
-            <Block
-              style={{
-                alignSelf: 'center',
-
-                marginTop: 0,
-                marginBottom: 10,
-              }}>
-              <Button2
-                icon={<Icon name="arrow-down" size={30} color="white" />}
-                onPress={() => this.onPress('v')}
-                disabled={true}
-              />
-              <Badge
-                value={this.setNumber('v')}
-                status="error"
-                containerStyle={{position: 'absolute', top: -4, right: -4}}
-              />
-            </Block>
-          </Block>
-          {/* OVERLAY Set Gesture*/}
-          <Overlay
-            isVisible={this.state.isVisibleSetOverlay}
-            onBackdropPress={() => {
-              this.setState({isVisibleSetOverlay: false});
-              this.fetchGestures();
-            }}
-            windowBackgroundColor="rgba(255, 255, 255, .5)"
-            width="auto"
-            height="auto">
-            <View>
-              <View
+              <Block
                 style={{
                   alignSelf: 'center',
                 }}>
                 <Button2
-                  icon={
-                    <Icon
-                      name="arrow-up"
-                      size={30}
-                      color={theme.colors.primary}
-                    />
-                  }
+                  icon={<Icon name="arrow-up" size={30} color="white" />}
                   onPress={() => this.onPress('^')}
-                  type="outline"
+                  disabled={true}
                 />
                 <Badge
                   value={this.setNumber('^')}
                   status="error"
                   containerStyle={{position: 'absolute', top: -4, right: -4}}
                 />
-              </View>
-              <View
+              </Block>
+              <Block
+                row
                 style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginBottom: 0,
-                  marginTop: 0,
+                  justifyContent: 'center',
                 }}>
-                <View>
+                {/* <Block middle flex={false} style={{marginLeft: 95}}> */}
+                <Block center flex={0.16}>
                   <Button2
-                    icon={
-                      <Icon
-                        name="arrow-left"
-                        size={30}
-                        color={theme.colors.primary}
-                      />
-                    }
+                    icon={<Icon name="arrow-left" size={30} color="white" />}
                     onPress={() => this.onPress('<')}
-                    type="outline"
+                    disabled={true}
                   />
                   <Badge
                     value={this.setNumber('<')}
                     status="error"
                     containerStyle={{position: 'absolute', top: -4, right: -4}}
                   />
-                </View>
-
-                <View
-                  style={{
-                    marginLeft: 50,
-                  }}>
+                </Block>
+                <Block center flex={0.16} />
+                {/* <Block middle flex={false} style={{marginRight: 95}}> */}
+                <Block center flex={0.16}>
                   <Button2
-                    icon={
-                      <Icon
-                        name="arrow-right"
-                        size={30}
-                        color={theme.colors.primary}
-                      />
-                    }
+                    icon={<Icon name="arrow-right" size={30} color="white" />}
                     onPress={() => this.onPress('>')}
-                    type="outline"
+                    disabled={true}
                   />
                   <Badge
                     value={this.setNumber('>')}
                     status="error"
                     containerStyle={{position: 'absolute', top: -4, right: -4}}
                   />
-                </View>
-              </View>
-              <View
+                </Block>
+              </Block>
+              <Block
                 style={{
                   alignSelf: 'center',
-
-                  marginTop: 0,
-                  marginBottom: 10,
+                  marginBottom: 25,
                 }}>
                 <Button2
-                  icon={
-                    <Icon
-                      name="arrow-down"
-                      size={30}
-                      color={theme.colors.primary}
-                    />
-                  }
+                  icon={<Icon name="arrow-down" size={30} color="white" />}
                   onPress={() => this.onPress('v')}
-                  type="outline"
+                  disabled={true}
                 />
                 <Badge
                   value={this.setNumber('v')}
                   status="error"
                   containerStyle={{position: 'absolute', top: -4, right: -4}}
                 />
-              </View>
+              </Block>
+            </Block>
+            {/* OVERLAY Set Gesture*/}
+            <Overlay
+              isVisible={this.state.isVisibleSetOverlay}
+              onBackdropPress={() => {
+                this.setState({isVisibleSetOverlay: false});
+                this.fetchGestures();
+              }}
+              windowBackgroundColor="rgba(255, 255, 255, .5)"
+              width="auto"
+              height="auto">
+              <View>
+                <View
+                  style={{
+                    alignSelf: 'center',
+                  }}>
+                  <Button2
+                    icon={
+                      <Icon
+                        name="arrow-up"
+                        size={30}
+                        color={theme.colors.primary}
+                      />
+                    }
+                    onPress={() => this.onPress('^')}
+                    type="outline"
+                  />
+                  <Badge
+                    value={this.setNumber('^')}
+                    status="error"
+                    containerStyle={{position: 'absolute', top: -4, right: -4}}
+                  />
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginBottom: 0,
+                    marginTop: 0,
+                  }}>
+                  <View>
+                    <Button2
+                      icon={
+                        <Icon
+                          name="arrow-left"
+                          size={30}
+                          color={theme.colors.primary}
+                        />
+                      }
+                      onPress={() => this.onPress('<')}
+                      type="outline"
+                    />
+                    <Badge
+                      value={this.setNumber('<')}
+                      status="error"
+                      containerStyle={{
+                        position: 'absolute',
+                        top: -4,
+                        right: -4,
+                      }}
+                    />
+                  </View>
 
-              <Button
-                status="primary"
-                size="small"
-                textStyle={{
-                  letterSpacing: 0.3,
-                  textTransform: 'uppercase',
-                  fontFamily: 'Rubik-Regular',
-                }}
-                onPress={() => this.saveGestures()}>
-                Save New Gesture
-              </Button>
-            </View>
-          </Overlay>
-          <Block center>
-            <Text spacing={0.4} bold>
-              Current Gesture Set
-            </Text>
-          </Block>
-        </Card>
+                  <View
+                    style={{
+                      marginLeft: 50,
+                    }}>
+                    <Button2
+                      icon={
+                        <Icon
+                          name="arrow-right"
+                          size={30}
+                          color={theme.colors.primary}
+                        />
+                      }
+                      onPress={() => this.onPress('>')}
+                      type="outline"
+                    />
+                    <Badge
+                      value={this.setNumber('>')}
+                      status="error"
+                      containerStyle={{
+                        position: 'absolute',
+                        top: -4,
+                        right: -4,
+                      }}
+                    />
+                  </View>
+                </View>
+                <View
+                  style={{
+                    alignSelf: 'center',
+
+                    marginTop: 0,
+                    marginBottom: 10,
+                  }}>
+                  <Button2
+                    icon={
+                      <Icon
+                        name="arrow-down"
+                        size={30}
+                        color={theme.colors.primary}
+                      />
+                    }
+                    onPress={() => this.onPress('v')}
+                    type="outline"
+                  />
+                  <Badge
+                    value={this.setNumber('v')}
+                    status="error"
+                    containerStyle={{position: 'absolute', top: -4, right: -4}}
+                  />
+                </View>
+
+                <Button
+                  status="primary"
+                  size="small"
+                  textStyle={{
+                    letterSpacing: 0.3,
+                    textTransform: 'uppercase',
+                    fontFamily: 'Rubik-Regular',
+                  }}
+                  onPress={() => this.saveGestures()}>
+                  Save New Gesture
+                </Button>
+              </View>
+            </Overlay>
+            <Block center>
+              <Text spacing={0.4} bold>
+                Current Gesture Set
+              </Text>
+            </Block>
+          </Card>
+        </Block>
       </ScrollView>
     );
   }

@@ -25,15 +25,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     maxWidth: Dimensions.get('window').width / 2 - 24,
     borderRadius: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowOpacity: 0.44,
-    shadowRadius: 10.32,
-
-    elevation: 16,
+    elevation: 6,
     marginBottom: 16,
   },
 

@@ -18,6 +18,8 @@ import {
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
+import {Divider} from 'react-native-elements';
+
 import {theme} from '../constants';
 
 import {
@@ -111,13 +113,12 @@ class NeighborhoodClassScreen extends Component {
         <ScrollView
           style={{
             paddingVertical: theme.sizes.padding,
-            // paddingHorizontal: theme.sizes.padding,
           }}>
+          <Block color="gray2" style={styles.hLine} />
           <Card
             shadow
             style={{
               height: Dimensions.get('screen').height / 2,
-              // width: Dimensions.get('screen').width,
             }}>
             <VideoPlayer
               videoStyle={styles.video}
@@ -156,7 +157,6 @@ class NeighborhoodClassScreen extends Component {
           style={styles.switchButton}
           onValueChange={() => {
             this.setState({detection: false, detectionButton: false});
-            this.onSocketDisconnection();
             firebase
               .database()
               .ref('/')
@@ -177,13 +177,16 @@ class NeighborhoodClassScreen extends Component {
           style={styles.switchButton}
           onValueChange={() => {
             this.setState({detection: true, detectionButton: true});
-            this.onSocketConnection();
             firebase
               .database()
               .ref('/')
               .update({neighbor: 'On'})
               .then(() => {
                 this.props.startDetection();
+                ToastAndroid.show(
+                  'You will receive notifications if there is any suspicious activity outside',
+                  ToastAndroid.LONG,
+                );
               });
             AsyncStorage.setItem('detection_state', 'true');
           }}
@@ -297,6 +300,12 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     padding: theme.sizes.padding,
     margin: theme.sizes.base,
+  },
+  hLine: {
+    marginVertical: theme.sizes.base,
+    marginHorizontal: theme.sizes.base * 2,
+    height: 1,
+    // width: 500,
   },
 });
 

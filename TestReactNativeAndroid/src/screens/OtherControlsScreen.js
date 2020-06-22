@@ -318,56 +318,56 @@ class OtherControlsScreen extends Component {
             Light and Fan Controls
           </Text>
         </Block>
-
-        <Card
-          shadow
+        <Block
           style={{
-            paddingVertical: theme.sizes.padding,
+            padding: theme.sizes.base,
           }}>
-          <Block>
-            <Block row>
-              <Block center>
-                <Text spacing={0.7}>Living Room Light</Text>
-                <Block color="gray3" style={styles.vLine} />
-                <Block row>
-                  <TouchableOpacity
-                    onPress={() => {
-                      // this.setState({
-                      //   lightStatus: !this.state.lightStatus,
-                      // });
-                      this.onCheckedChange('light');
-                    }}>
-                    <Image source={lightSource} />
-                  </TouchableOpacity>
+          <Card shadow style={styles.elevationCard}>
+            <Block>
+              <Block row>
+                <Block center>
+                  <Text spacing={0.7}>Living Room Light</Text>
+                  <Block color="gray3" style={styles.vLine} />
+                  <Block row>
+                    <TouchableOpacity
+                      onPress={() => {
+                        // this.setState({
+                        //   lightStatus: !this.state.lightStatus,
+                        // });
+                        this.onCheckedChange('light');
+                      }}>
+                      <Image source={lightSource} />
+                    </TouchableOpacity>
+                  </Block>
                 </Block>
-              </Block>
 
-              <Block flex={false} color="gray3" style={styles.vLine} />
+                <Block flex={false} color="gray3" style={styles.vLine} />
 
-              <Block center>
-                <Text spacing={0.7}>Living Room Fan</Text>
-                <Block color="gray3" style={styles.vLine} />
-                <Block row>
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.setState({
-                        spinValue: new Animated.Value(0),
-                      });
-                      console.log(this.state);
-                      this.onCheckedChange('fan');
-                    }}>
-                    {fanComponent}
-                  </TouchableOpacity>
+                <Block center>
+                  <Text spacing={0.7}>Living Room Fan</Text>
+                  <Block color="gray3" style={styles.vLine} />
+                  <Block row>
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.setState({
+                          spinValue: new Animated.Value(0),
+                        });
+                        console.log(this.state);
+                        this.onCheckedChange('fan');
+                      }}>
+                      {fanComponent}
+                    </TouchableOpacity>
+                  </Block>
                 </Block>
               </Block>
             </Block>
-          </Block>
-        </Card>
+          </Card>
+        </Block>
       </React.Fragment>
     );
   }
 
-  renderAwards() {
+  renderCo2Component() {
     let co2Source = this.state.co2Power ? co2On : co2Off;
     let co2OwnerHomeComponent = this.state.co2Owner ? (
       <Button
@@ -428,26 +428,31 @@ class OtherControlsScreen extends Component {
             Carbon Dioxide Sensor
           </Text>
         </Block>
-        <LinearGradient
-          end={{x: 1, y: 0}}
-          style={[blockStyles.row, cardStyles.card, styles.awards]}
-          colors={['#FFFFFF', '#FFFFFF']}>
-          <Block middle flex={0.7} style={{marginLeft: 10}}>
-            <TouchableOpacity
-              onPress={() => {
-                this.onCheckedChange('co2Power');
-              }}>
-              <Image source={co2Source} />
-            </TouchableOpacity>
-          </Block>
-          <Block middle flex={false}>
-            {co2OwnerHomeComponent}
-          </Block>
-          <Block middle flex={false}>
-            {co2OwnerAwayComponent}
-          </Block>
-          <Block style={styles.vLine} flex={false} />
-        </LinearGradient>
+        <Block
+          style={{
+            padding: theme.sizes.base,
+          }}>
+          <LinearGradient
+            end={{x: 1, y: 0}}
+            style={[blockStyles.row, cardStyles.card, styles.elevationCard]}
+            colors={['#FFFFFF', '#FFFFFF']}>
+            <Block middle flex={0.7} style={{marginLeft: 10}}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.onCheckedChange('co2Power');
+                }}>
+                <Image source={co2Source} />
+              </TouchableOpacity>
+            </Block>
+            <Block middle flex={false}>
+              {co2OwnerHomeComponent}
+            </Block>
+            <Block middle flex={false}>
+              {co2OwnerAwayComponent}
+            </Block>
+            <Block style={styles.vLine} flex={false} />
+          </LinearGradient>
+        </Block>
       </Block>
     );
   }
@@ -471,7 +476,7 @@ class OtherControlsScreen extends Component {
     } else {
       loadingComponent = null;
       controlsComponent = this.renderOtherControls();
-      co2Component = this.renderAwards();
+      co2Component = this.renderCo2Component();
     }
     return (
       <React.Fragment>
@@ -510,9 +515,10 @@ const styles = StyleSheet.create({
     marginVertical: theme.sizes.base / 2,
     width: 1,
   },
-  awards: {
+  elevationCard: {
     padding: theme.sizes.base,
     marginBottom: theme.sizes.padding,
+    elevation: 6,
     // width: width / 2 - 24,
   },
 

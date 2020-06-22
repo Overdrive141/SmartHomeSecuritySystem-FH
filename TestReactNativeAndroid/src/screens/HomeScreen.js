@@ -410,14 +410,7 @@ const styles = StyleSheet.create({
   },
   gradientCard: {
     height: 120,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.0,
-    elevation: 24,
+    elevation: 12,
   },
   vLine: {
     marginVertical: theme.sizes.base / 10,

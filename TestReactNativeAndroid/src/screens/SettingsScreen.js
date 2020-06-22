@@ -238,8 +238,8 @@ class SettingsScreen extends Component {
             </Block>
           </Block>
 
-          <Block style={{padding: 0, marginLeft: 40, marginRight: 60}}>
-            <Text spacing={0.4} gray2 justify caption>
+          <Block left style={{padding: 0, marginLeft: 40, marginRight: 60}}>
+            <Text spacing={0.4} gray justify caption>
               Smart Routine turns on lights and fans automatically based on the
               time you arrive at your home
             </Text>

@@ -376,6 +376,7 @@ class OtherControlsScreen extends Component {
         size="small"
         textStyle={{
           letterSpacing: 1,
+          fontSize: 10,
           textTransform: 'uppercase',
           fontFamily: 'Rubik-Regular',
         }}>
@@ -389,6 +390,7 @@ class OtherControlsScreen extends Component {
         size="small"
         textStyle={{
           letterSpacing: 1,
+          fontSize: 10,
           textTransform: 'uppercase',
           fontFamily: 'Rubik-Regular',
         }}>
@@ -403,6 +405,7 @@ class OtherControlsScreen extends Component {
         size="small"
         textStyle={{
           letterSpacing: 1,
+          fontSize: 10,
           textTransform: 'uppercase',
           fontFamily: 'Rubik-Regular',
         }}>
@@ -415,6 +418,7 @@ class OtherControlsScreen extends Component {
         size="small"
         textStyle={{
           letterSpacing: 1,
+          fontSize: 10,
           textTransform: 'uppercase',
           fontFamily: 'Rubik-Regular',
         }}>
@@ -444,6 +448,7 @@ class OtherControlsScreen extends Component {
                 <Image source={co2Source} />
               </TouchableOpacity>
             </Block>
+            <Block middle flex={0.1} />
             <Block middle flex={false}>
               {co2OwnerHomeComponent}
             </Block>

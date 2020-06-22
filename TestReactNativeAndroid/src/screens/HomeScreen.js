@@ -292,10 +292,10 @@ const HomeScreen = ({navigation}) => {
                   </Block>
                 </Block>
 
-                <Block right flex={false} color="gray3" style={styles.vLine} />
+                <Block flex={false} color="gray3" style={styles.vLine} />
 
                 <Block middle center>
-                  <Text bold black h4 transform="capitalize">
+                  <Text bold black title transform="capitalize">
                     {temperature.desc}
                   </Text>
                 </Block>

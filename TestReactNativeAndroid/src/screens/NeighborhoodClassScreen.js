@@ -200,7 +200,7 @@ class NeighborhoodClassScreen extends Component {
         <Block style={styles.blockContainer}>
           <Block row>
             <Block left flex={0.11} />
-            <Block left flex={1.4}>
+            <Block style={{marginTop: 3}} left flex={1.4}>
               <Text bold h4 spacing={0.5}>
                 Outdoor Live Stream
               </Text>
@@ -214,12 +214,11 @@ class NeighborhoodClassScreen extends Component {
                 You will receive a live stream of your front door camera
               </Text>
             </Block>
-            <Block center flex={0.05} />
           </Block>
 
           <Block row style={{marginTop: 15}}>
             <Block left flex={0.11} />
-            <Block left flex={1.4}>
+            <Block style={{marginTop: 3}} left flex={1.4}>
               <Text bold h4 spacing={0.5}>
                 Outdoor Human Detection
               </Text>

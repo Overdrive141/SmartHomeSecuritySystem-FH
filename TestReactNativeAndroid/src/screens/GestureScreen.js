@@ -366,7 +366,7 @@ class GestureScreen extends Component {
                   justifyContent: 'center',
                 }}>
                 {/* <Block middle flex={false} style={{marginLeft: 95}}> */}
-                <Block center flex={0.16}>
+                <Block center flex={0.17}>
                   <Button2
                     icon={<Icon name="arrow-left" size={30} color="white" />}
                     onPress={() => this.onPress('<')}
@@ -378,9 +378,9 @@ class GestureScreen extends Component {
                     containerStyle={{position: 'absolute', top: -4, right: -4}}
                   />
                 </Block>
-                <Block center flex={0.16} />
+                <Block center flex={0.18} />
                 {/* <Block middle flex={false} style={{marginRight: 95}}> */}
-                <Block center flex={0.16}>
+                <Block center flex={0.17}>
                   <Button2
                     icon={<Icon name="arrow-right" size={30} color="white" />}
                     onPress={() => this.onPress('>')}

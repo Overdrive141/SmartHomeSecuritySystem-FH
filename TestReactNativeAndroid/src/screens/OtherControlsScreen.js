@@ -7,7 +7,6 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
   Animated,
   RefreshControl,
 } from 'react-native';
@@ -21,7 +20,7 @@ import firebase from 'react-native-firebase';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Block, Badge, Card, Text} from '../components';
+import {Block, Badge, Card, Text, Loading} from '../components';
 import {styles as blockStyles} from '../components/Block';
 import {styles as cardStyles} from '../components/Card';
 import {theme} from '../constants';
@@ -33,11 +32,9 @@ import fanOff from '../../assets/images/fan-off.png';
 import co2On from '../../assets/images/co2on.png';
 import co2Off from '../../assets/images/co2off.png';
 
-// import {Toggle} from '@ui-kitten/components';
 import {Easing} from 'react-native-reanimated';
 
 import {Button} from '@ui-kitten/components';
-const {width} = Dimensions.get('window');
 
 class OtherControlsScreen extends Component {
   componentDidMount() {
@@ -469,11 +466,12 @@ class OtherControlsScreen extends Component {
     if (this.state.isLoading) {
       loadingComponent = (
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator
+          {/* <ActivityIndicator
             animating={this.state.isLoading}
             size="large"
             style={styles.activityIndicator}
-          />
+          /> */}
+          <Loading state={this.state.isLoading} />
         </View>
       );
 
@@ -541,12 +539,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     margin: 8,
     backgroundColor: '#3366FF',
-  },
-  activityIndicator: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 80,
   },
 });
 

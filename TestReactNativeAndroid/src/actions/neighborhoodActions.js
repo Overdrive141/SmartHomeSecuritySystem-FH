@@ -5,10 +5,11 @@ import {
   START_DETECTION,
   STOP_DETECTION,
 } from './types';
+import {PUBLIC_IP} from '../env';
 
 export const getStream = () => dispatch => {
   axios
-    .get('http://192.168.200.31:5000/cameraonly')
+    .get(`${PUBLIC_IP}:6000/cameraonly`)
     .then(res =>
       dispatch({
         type: GET_STREAM,
@@ -25,7 +26,7 @@ export const getStream = () => dispatch => {
 
 export const killStream = () => dispatch => {
   axios
-    .get('http://192.168.200.31:5000/killcam')
+    .get(`${PUBLIC_IP}:6000/killcam`)
     .then(res =>
       dispatch({
         type: KILL_STREAM,
@@ -35,33 +36,21 @@ export const killStream = () => dispatch => {
     .catch(err => console.log(err));
 };
 
-// export const startDetection = () => dispatch => {
-//   axios
-//     .post('http://192.168.200.31:5000/opencv')
-//     .then(res => {
-//       dispatch({
-//         type: START_DETECTION,
-//         payload: res.data,
-//       });
-//     })
-//     .catch(err => console.log(err));
-// };
-
 export const startDetection = () => dispatch => {
   axios
-    .get('http://192.168.200.31:5000/testnewnd')
+    .get(`${PUBLIC_IP}:6000/testnewnd`)
     .then(res => {
       console.log(res);
     })
     .catch(err => console.log(err));
-  axios.get('http://192.168.200.194:5000/neighbor').then(res => {
+  axios.get(`${PUBLIC_IP}:6000/neighbor`).then(res => {
     console.log(res);
   });
 };
 
 export const stopDetection = () => dispatch => {
   axios
-    .get('http://192.168.200.31:5000/killcv')
+    .get(`${PUBLIC_IP}:6000/killcv`)
     .then(res => {
       dispatch({
         type: STOP_DETECTION,

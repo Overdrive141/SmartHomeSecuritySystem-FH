@@ -1,7 +1,6 @@
 import {
   StyleSheet,
   View,
-  ActivityIndicator,
   Dimensions,
   ScrollView,
   RefreshControl,
@@ -17,7 +16,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 // import {getPatternStamp} from '../actions/patternActions';
 
 import {theme} from '../constants';
-import {Block, Badge, Card, Text} from '../components';
+import {Block, Badge, Card, Text, Loading} from '../components';
 
 const {width} = Dimensions.get('window');
 class DoorLockScreen extends Component {
@@ -108,15 +107,7 @@ class DoorLockScreen extends Component {
     let controlComponent;
 
     if (this.state.isLoading) {
-      loadingComponent = (
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator
-            animating={this.state.isLoading}
-            size="large"
-            style={styles.activityIndicator}
-          />
-        </View>
-      );
+      loadingComponent = <Loading state={this.state.isLoading} />;
 
       controlComponent = null;
     } else {
@@ -274,14 +265,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// DoorLockScreen.propTypes = {
-//   // getPatternStamp: PropTypes.func.isRequired,
-//   patternstamp: PropTypes.object,
-// };
-
-// const mapStateToProps = state => ({
-//   patternstamp: state.patternstamp,
-// });
-
-// export default connect(mapStateToProps, {getPatternStamp})(DoorLockScreen);
 export default DoorLockScreen;

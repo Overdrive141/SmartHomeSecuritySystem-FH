@@ -1,12 +1,5 @@
 import React from 'react';
 
-// import {
-//   createSwitchNavigator,
-//   createStackNavigator,
-//   createDrawerNavigator,
-//   createAppContainer,
-// } from 'react-navigation';
-
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator, DrawerItems} from 'react-navigation-drawer';
@@ -32,7 +25,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  // Text,
 } from 'react-native';
 
 import {fromBottom} from 'react-navigation-transitions';
@@ -85,51 +77,6 @@ const CustomDrawerComponent = props => (
   </SafeAreaView>
 );
 
-// My old
-// const MainStack = createStackNavigator(
-//     {
-//       Drawer: {
-//         screen: Drawer,
-//       },
-//       Home: {
-//         screen: HomeScreen,
-//         navigationOptions: ({navigation}) => ({
-//           // title: 'Home Screen',
-//           headerLeft: (
-//             <MenuButton onPress={() => navigation.navigate('DrawerToggle')} />
-//           ),
-//         }),
-//       },
-//       // Neighborhood: NeighborhoodScreen,
-//       Neighborhood: {
-//         screen: NeighborhoodClassScreen,
-//       },
-//       Gestures: GestureScreen,
-//       Test: TestState,
-//       DoorLock: DoorLockScreen,
-//       //Loading: LoadingScreen
-//     },
-
-//     {
-//       initialRouteName: 'Home',
-//       defaultNavigationOptions: {
-//         title: 'Smart Home Security System',
-//         // headerLeft: <MenuButton onPress={() => navigation.openDrawer()} />,
-//         headerBackTitle: 'Home',
-//         headerLayoutPreset: 'center',
-//         // headerTitle: () => <Logo />,
-
-//         // headerStyle: {
-//         //   backgroundColor: '#f4511e',
-//         // },
-//         // headerTintColor: '#fff',
-//         // headerTitleStyle: {
-//         //   fontWeight: 'bold',
-//         // },
-//       },
-//     },
-//   );
-
 const IntroStack = createStackNavigator({Intro: IntroScreen});
 
 const MainStackNavigator = createStackNavigator(
@@ -138,15 +85,8 @@ const MainStackNavigator = createStackNavigator(
     Home: {
       screen: HomeScreen,
       navigationOptions: ({navigation}) => ({
-        // headerTitle: (
-        //   <Text spacing={1} transform="uppercase" bold title>
-        //     Smart Home Security System
-        //   </Text>
-        // ),
         title: 'Smart Home Security System',
         headerLeft: <DrawerExample navigationProps={navigation} />,
-
-        // headerTintColor: '#0ba8e6',
       }),
     },
     Neighborhood: {
@@ -178,16 +118,11 @@ const MainStackNavigator = createStackNavigator(
           borderBottomColor: 'transparent',
           elevation: 0,
         },
-        // headerLeftContainerStyle: {
-        //   alignContent: 'center',
-        //   marginLeft: 32,
-        //   paddingRight: 16,
-        // },
+
         headerRightContainerStyle: {
           alignItems: 'center',
           paddingRight: 16,
         },
-        // headerRight: <DrawerExample navigationProps={navigation} />,
       }),
     },
     Indoor: {

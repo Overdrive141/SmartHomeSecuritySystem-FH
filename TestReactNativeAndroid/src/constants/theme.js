@@ -41,7 +41,7 @@ if (PixelRatio.get() >= 2 && PixelRatio.get() <= 3) {
   FONT_TITLE = 14;
   FONT_HEADER = 20;
   FONT_BODY = 9;
-  FONT_CAPTION = 8;
+  FONT_CAPTION = 9;
   FONT_SMALL = 6;
   SCALE_X = 0.8;
   SCALE_Y = 0.8;

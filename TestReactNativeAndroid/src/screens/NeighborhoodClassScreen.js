@@ -40,6 +40,7 @@ import {styles as cardStyles} from '../components/Card';
 import VideoPlayer from '../components/VideoPlayer';
 
 import AsyncStorage from '@react-native-community/async-storage';
+import {PUBLIC_IP} from '../env';
 
 class NeighborhoodClassScreen extends Component {
   constructor(props) {
@@ -124,7 +125,8 @@ class NeighborhoodClassScreen extends Component {
               videoStyle={styles.video}
               style={styles.videoContainer}
               source={{
-                uri: 'http://192.168.200.31:8160',
+                // uri: 'http://192.168.200.31:8160',
+                uri: `${PUBLIC_IP}:8160`,
               }}
               resizeMode="contain"
               navigator={navigator}

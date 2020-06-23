@@ -1,7 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Image, Dimensions} from 'react-native';
-import {TouchableOpacity} from 'react-native';
-// import {withNavigation} from 'react-navigation';
+import {StyleSheet, Image, Dimensions} from 'react-native';
 import {Card} from '@ui-kitten/components';
 import {theme} from '../constants';
 import {Text} from '../components';

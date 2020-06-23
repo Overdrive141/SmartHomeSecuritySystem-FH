@@ -14,3 +14,5 @@ export const dialogflowConfig = {
 };
 
 export const WEATHER_API_KEY = 'ba4ede5f1c8b5d84809d08fe7ccd2e26';
+
+export const PUBLIC_IP = 'http://203.82.58.93';

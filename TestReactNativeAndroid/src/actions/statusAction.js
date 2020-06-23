@@ -4,10 +4,12 @@ import {
   GET_NODE_HEALTHSTATUS,
   GET_ERRORS,
 } from './types';
+import {PUBLIC_IP} from '../env';
 
 export const getNodeHealthStatus = () => dispatch => {
   axios
-    .get('http://192.168.200.31:5000/')
+    // .get('http://192.168.200.31:5000/')
+    .get(`${PUBLIC_IP}:6000/`)
     .then(res =>
       dispatch({
         type: GET_NODE_HEALTHSTATUS,
@@ -24,7 +26,8 @@ export const getNodeHealthStatus = () => dispatch => {
 
 export const getFlaskHealthStatus = () => dispatch => {
   axios
-    .get('http://192.168.200.3:5000/')
+    // .get('http://192.168.200.3:5000/')
+    .get(`${PUBLIC_IP}:5000/`)
     .then(res =>
       dispatch({
         type: GET_FLASK_HEALTHSTATUS,

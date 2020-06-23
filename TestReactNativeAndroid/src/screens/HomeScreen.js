@@ -1,12 +1,10 @@
 import {
   StyleSheet,
   View,
-  ImageBackground,
   Image,
-  TouchableOpacity,
   ScrollView,
   Dimensions,
-  ToastAndroid,
+  ActivityIndicator,
   PermissionsAndroid,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
@@ -16,7 +14,7 @@ import MenuItems from '../components/MenuItems';
 import firebase from 'react-native-firebase';
 
 import {theme} from '../constants';
-import {Block, Text, Card} from '../components';
+import {Block, Text, Card, Loading} from '../components';
 import {Divider} from 'react-native-elements';
 import {styles as blockStyles} from '../components/Block';
 import {styles as cardStyles} from '../components/Card';
@@ -39,47 +37,6 @@ const HomeScreen = ({navigation}) => {
     requestLocationPermission();
     requestUserPermission();
 
-    //     navigator.geolocation.getCurrentPosition(
-    //   position => {
-    //     fetchWeather(position.coords.latitude, position.coords.longitude);
-    //   },
-    //   error => {
-    //     setError('Error getting weather condition');
-    //   },
-    // );
-
-    // firebase
-    //   .messaging()
-    //   .hasPermission()
-    //   .then(enabled => {
-    //     if (enabled) {
-    //       // user has permissions
-    //       firebase.messaging().subscribeToTopic('smarthometest');
-    //       firebase.messaging().subscribeToTopic('indoorcam');
-    //     } else {
-    //       // user doesn't have permission
-    //       firebase
-    //         .messaging()
-    //         .requestPermission()
-    //         .then(() => {
-    //           // User has authorised
-    //           alert('You will get all notifications.');
-    //           firebase.messaging().subscribeToTopic('smarthometest');
-    //           firebase.messaging().subscribeToTopic('indoorcam');
-    //         })
-    //         .catch(error => {
-    //           // User has rejected permissions
-    //           alert('You will not get any notifications.');
-    //         });
-    //     }
-    //   });
-
-    //   // this.onTokenRefreshListener = firebase
-    //   //   .messaging()
-    //   //   .onTokenRefresh(fcmToken => {
-    //   //     // Process your token as required
-    //   //     console.log(fcmToken);
-    //   //   });
     const neighborhoodChannel = new firebase.notifications.Android.Channel(
       'smart-home-neighborhood',
       'Outdoor Security Channel',
@@ -110,14 +67,6 @@ const HomeScreen = ({navigation}) => {
       } else if (channelId === 'smart-home-neighborhood') {
         navigation.navigate('Neighborhood');
       }
-      // notificationOpen.notification.android.setAutoCancel(true);
-      // else if (_title.includes('Suspicious')){
-      //   navigation.navigate('Neighborhood');
-      // }
-
-      // firebase
-      //   .notifications()
-      //   .removeDeliveredNotification(notification.notificationId);
     });
 
     // Navigate to screen on click of push notification from background/quit state
@@ -244,11 +193,12 @@ const HomeScreen = ({navigation}) => {
         }
       });
   };
+
   if (loading) {
-    return <Text>Loading...</Text>;
+    return <Loading state={loading} />;
   }
   // // TODO: Max 3 per row. Set menuitems style
-  else
+  else {
     return (
       <View style={styles.welcome}>
         <View style={{padding: 8}}>
@@ -295,7 +245,7 @@ const HomeScreen = ({navigation}) => {
                 <Block flex={false} color="gray3" style={styles.vLine} />
 
                 <Block middle center>
-                  <Text bold black title transform="capitalize">
+                  <Text bold h4 transform="capitalize">
                     {temperature.desc}
                   </Text>
                 </Block>
@@ -348,6 +298,7 @@ const HomeScreen = ({navigation}) => {
         </View>
       </View>
     );
+  }
 };
 
 const styles = StyleSheet.create({

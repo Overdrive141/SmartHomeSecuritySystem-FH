@@ -1,19 +1,11 @@
 import React from 'react';
 
-// import {
-//   createSwitchNavigator,
-//   createStackNavigator,
-//   createDrawerNavigator,
-//   createAppContainer,
-// } from 'react-navigation';
-
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 
 import HomeScreen from '../../src/screens/HomeScreen';
 import GestureScreen from '../../src/screens/GestureScreen';
-import NeighborhoodScreen from '../../src/screens/NeighborhoodScreen';
 import NeighborhoodClassScreen from '../../src/screens/NeighborhoodClassScreen';
 import TestState from '../../src/screens/TestState';
 import DoorLockScreen from '../../src/screens/DoorLockScreen';
@@ -113,7 +105,6 @@ const MainStack = createStackNavigator(
         ),
       }),
     },
-    // Neighborhood: NeighborhoodScreen,
     Neighborhood: {
       screen: NeighborhoodClassScreen,
     },

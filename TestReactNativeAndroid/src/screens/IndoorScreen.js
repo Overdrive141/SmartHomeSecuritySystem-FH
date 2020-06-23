@@ -23,6 +23,7 @@ import {Block, Card, Text} from '../components';
 import {theme} from '../constants';
 import {HeaderBackButton} from 'react-navigation-stack';
 import firebase from 'react-native-firebase';
+import {PUBLIC_IP} from '../env';
 
 // TODO: Set Loading Container in WebView
 // TODO: On Back Button Set Indoor To 0 in Firebase RTDB
@@ -87,7 +88,8 @@ class IndoorScreen extends Component {
             <WebView
               containerStyle={styles.videoContainer}
               style={styles.video}
-              source={{uri: 'http://192.168.200.3:5000/video'}}
+              source={{uri: `${PUBLIC_IP}:5000/video`}}
+              // source={{uri: 'http://192.168.200.3:5000/video'}}
               scalesPageToFit={false}
               startInLoadingState={false}
               javaScriptEnabled={false}

@@ -1,12 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  ImageBackground,
-  ToastAndroid,
-  Switch,
-  ActivityIndicator,
-  RefreshControl,
-} from 'react-native';
+import {StyleSheet, Switch, RefreshControl} from 'react-native';
 
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -14,12 +6,7 @@ import {connect} from 'react-redux';
 import {Badge} from 'react-native-elements';
 import {theme} from '../constants';
 
-import React, {useState, useReducer, useEffect, Component} from 'react';
-import bgImage from '../../assets/images/bg3.jpg';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Icon5 from 'react-native-vector-icons/FontAwesome5';
-
-import {Toggle} from '@ui-kitten/components';
+import React, {Component} from 'react';
 
 import {
   getNodeHealthStatus,
@@ -27,7 +14,7 @@ import {
 } from '../actions/statusAction';
 import {TouchableOpacity, ScrollView} from 'react-native-gesture-handler';
 
-import {Block, Text} from '../components';
+import {Block, Text, Loading} from '../components';
 import firebase from 'react-native-firebase';
 
 class SettingsScreen extends Component {
@@ -123,15 +110,7 @@ class SettingsScreen extends Component {
   };
 
   renderLoading() {
-    return (
-      <Block middle>
-        <ActivityIndicator
-          animating={this.state.isLoading}
-          size="large"
-          style={styles.activityIndicator}
-        />
-      </Block>
-    );
+    return <Loading state={this.state.isLoading} />;
   }
 
   renderSettings() {
@@ -238,7 +217,10 @@ class SettingsScreen extends Component {
             </Block>
           </Block>
 
-          <Block left style={{padding: 0, marginLeft: 40, marginRight: 60}}>
+          <Block
+            left
+            flex={0.2}
+            style={{padding: 0, marginLeft: 40, marginRight: 150}}>
             <Text spacing={0.4} gray justify caption>
               Smart Routine turns on lights and fans automatically based on the
               time you arrive at your home
@@ -296,6 +278,12 @@ const styles = StyleSheet.create({
         scaleY: theme.sizes.scaleY,
       },
     ],
+  },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 80,
   },
 });
 

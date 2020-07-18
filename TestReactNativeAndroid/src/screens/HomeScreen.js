@@ -2,9 +2,7 @@ import {
   StyleSheet,
   View,
   Image,
-  ScrollView,
   Dimensions,
-  ActivityIndicator,
   PermissionsAndroid,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';

@@ -13,11 +13,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {theme} from '../constants';
 import {Loading} from '../components';
 import LottieView from 'lottie-react-native';
+import {HeaderBackButton} from 'react-navigation-stack';
 
-class IntroScreen extends Component {
-  static navigationOptions = {
-    headerShown: false,
-  };
+class HelpScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +23,18 @@ class IntroScreen extends Component {
       isLoading: true,
     };
   }
-
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerLeft: (
+        <HeaderBackButton
+          onPress={() => {
+            AsyncStorage.setItem('showMainApp', 'true');
+            navigation.goBack();
+          }}
+        />
+      ),
+    };
+  };
   componentDidMount() {
     try {
       AsyncStorage.getItem('showMainApp').then(data => {
@@ -50,13 +59,12 @@ class IntroScreen extends Component {
   }
 
   _onDone = () => {
-    // this.setState({show_Main_App: true});
     AsyncStorage.setItem('showMainApp', 'true');
-    this.props.navigation.navigate('App');
+    this.props.navigation.navigate('Home');
   };
   _onSkip = () => {
     AsyncStorage.setItem('showMainApp', 'true');
-    this.props.navigation.navigate('App');
+    this.props.navigation.navigate('Home');
   };
 
   _renderItem = ({item}) => {
@@ -200,4 +208,4 @@ const slides = [
   },
 ];
 
-export default IntroScreen;
+export default HelpScreen;

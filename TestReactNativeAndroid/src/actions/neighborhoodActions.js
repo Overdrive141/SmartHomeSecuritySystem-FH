@@ -37,15 +37,15 @@ export const killStream = () => dispatch => {
 };
 
 export const startDetection = () => dispatch => {
+  axios.get(`${PUBLIC_IP}:5000/neighbor`).then(res => {
+    console.log(res);
+  });
   axios
     .get(`${PUBLIC_IP}:6000/testnewnd`)
     .then(res => {
       console.log(res);
     })
     .catch(err => console.log(err));
-  axios.get(`${PUBLIC_IP}:6000/neighbor`).then(res => {
-    console.log(res);
-  });
 };
 
 export const stopDetection = () => dispatch => {

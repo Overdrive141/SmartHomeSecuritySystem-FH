@@ -4,6 +4,8 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator, DrawerItems} from 'react-navigation-drawer';
 
+import AsyncStorage from '@react-native-community/async-storage';
+
 import HomeScreen from '../../src/screens/HomeScreen';
 import GestureScreen from '../../src/screens/GestureScreen';
 
@@ -12,12 +14,10 @@ import TestState from '../../src/screens/TestState';
 import DoorLockScreen from '../../src/screens/DoorLockScreen';
 import SettingsScreen from '../../src/screens/SettingsScreen';
 import OtherControlsScreen from '../../src/screens/OtherControlsScreen';
-
-import {MenuButton, Logo} from '../components/HeaderTitle';
-import {DrawerActions} from 'react-navigation-drawer';
-import {Text} from '../components';
+import HelpScreen from '../../src/screens/HelpScreen';
 
 import {Icon} from 'native-base';
+import IconF from 'react-native-vector-icons/FontAwesome';
 
 import {
   View,
@@ -30,7 +30,7 @@ import {
 import {fromBottom} from 'react-navigation-transitions';
 import IndoorScreen from '../screens/IndoorScreen';
 import IntroScreen from '../screens/IntroScreen';
-// import {DrawerItems} from 'react-navigation-drawer';
+import {theme} from '../constants';
 
 class DrawerExample extends React.Component {
   toggleDrawer = () => {
@@ -43,7 +43,7 @@ class DrawerExample extends React.Component {
           {/*Donute Button Image */}
           <Image
             source={require('../../assets/images/Menu.png')}
-            style={{width: 20, height: 24, marginLeft: 15}}
+            style={{width: 20, height: 23, marginLeft: 12}}
             resizeMode="contain"
           />
         </TouchableOpacity>
@@ -52,7 +52,7 @@ class DrawerExample extends React.Component {
   }
 }
 
-// Custom Drawer Example
+// Custom Drawer
 const CustomDrawerComponent = props => (
   <SafeAreaView style={{flex: 1}}>
     <View
@@ -82,11 +82,26 @@ const IntroStack = createStackNavigator({Intro: IntroScreen});
 const MainStackNavigator = createStackNavigator(
   {
     //All the screen from the Screen1 will be indexed here
+    Help: {
+      screen: HelpScreen,
+      navigationOptions: ({navigation}) => ({
+        title: 'Help',
+      }),
+    },
     Home: {
       screen: HomeScreen,
       navigationOptions: ({navigation}) => ({
         title: 'Smart Home Security System',
         headerLeft: <DrawerExample navigationProps={navigation} />,
+        headerRight: (
+          <TouchableOpacity
+            onPress={() => {
+              AsyncStorage.setItem('showMainApp', 'false');
+              navigation.navigate('Help');
+            }}>
+            <IconF name="question-circle-o" size={30} />
+          </TouchableOpacity>
+        ),
       }),
     },
     Neighborhood: {
@@ -158,7 +173,7 @@ const MainStackNavigator = createStackNavigator(
         letterSpacing: 1,
         fontWeight: 'bold',
         fontFamily: 'Rubik-SemiBold',
-        fontSize: 18,
+        fontSize: theme.sizes.title,
       },
 
       headerStyle: {
@@ -257,7 +272,6 @@ const DrawerNavigatorExample = createDrawerNavigator(
   },
 );
 
-// const AppContainer = createAppContainer(DrawerNavigatorExample);
 const AppContainer = createAppContainer(
   createSwitchNavigator(
     {

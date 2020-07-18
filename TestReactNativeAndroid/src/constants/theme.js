@@ -21,7 +21,7 @@ let FONT_H1 = 39;
 let FONT_H2 = 29;
 let FONT_H3 = 19;
 let FONT_H4 = 15;
-let FONT_TITLE = 18;
+let FONT_TITLE = 17;
 let FONT_HEADER = 24;
 let FONT_BODY = 12;
 let FONT_CAPTION = 11;
@@ -38,7 +38,7 @@ if (PixelRatio.get() >= 2 && PixelRatio.get() <= 3) {
   FONT_H2 = 25;
   FONT_H3 = 15;
   FONT_H4 = 11;
-  FONT_TITLE = 14;
+  FONT_TITLE = 13;
   FONT_HEADER = 20;
   FONT_BODY = 9;
   FONT_CAPTION = 9;

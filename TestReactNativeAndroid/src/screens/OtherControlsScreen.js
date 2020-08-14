@@ -301,6 +301,8 @@ class OtherControlsScreen extends Component {
     });
 
     const {navigation} = this.props;
+    let lightStatusText = this.state.lightStatus ? 'On' : 'Off';
+    let fanStatusText = this.state.fanStatus ? 'On' : 'Off';
     let lightSource = this.state.lightStatus ? lightOn : lightOff;
     let fanComponent = this.state.fanStatus ? (
       <Animated.Image style={{transform: [{rotate: spin}]}} source={fanOn} />
@@ -328,12 +330,16 @@ class OtherControlsScreen extends Component {
                   <Block row>
                     <TouchableOpacity
                       onPress={() => {
-                        // this.setState({
-                        //   lightStatus: !this.state.lightStatus,
-                        // });
                         this.onCheckedChange('light');
                       }}>
                       <Image source={lightSource} />
+                      <Text
+                        spacing={0.4}
+                        transform="uppercase"
+                        center
+                        style={{marginTop: 10}}>
+                        {lightStatusText}
+                      </Text>
                     </TouchableOpacity>
                   </Block>
                 </Block>
@@ -353,6 +359,13 @@ class OtherControlsScreen extends Component {
                         this.onCheckedChange('fan');
                       }}>
                       {fanComponent}
+                      <Text
+                        spacing={0.4}
+                        center
+                        transform="uppercase"
+                        style={{marginTop: 10}}>
+                        {fanStatusText}
+                      </Text>
                     </TouchableOpacity>
                   </Block>
                 </Block>
@@ -366,6 +379,7 @@ class OtherControlsScreen extends Component {
 
   renderCo2Component() {
     let co2Source = this.state.co2Power ? co2On : co2Off;
+    let co2StatusText = this.state.co2Power ? 'On' : 'Off';
     let co2OwnerHomeComponent = this.state.co2Owner ? (
       <Button
         appearance="outline"
@@ -437,12 +451,19 @@ class OtherControlsScreen extends Component {
             end={{x: 1, y: 0}}
             style={[blockStyles.row, cardStyles.card, styles.elevationCard]}
             colors={['#FFFFFF', '#FFFFFF']}>
-            <Block middle flex={0.7} style={{marginLeft: 10}}>
+            <Block center flex={0.7} style={{marginLeft: 10}}>
               <TouchableOpacity
                 onPress={() => {
                   this.onCheckedChange('co2Power');
                 }}>
                 <Image source={co2Source} />
+                <Text
+                  spacing={0.4}
+                  center
+                  transform="uppercase"
+                  style={{marginTop: 5}}>
+                  {co2StatusText}
+                </Text>
               </TouchableOpacity>
             </Block>
             <Block middle flex={0.1} />
@@ -466,11 +487,6 @@ class OtherControlsScreen extends Component {
     if (this.state.isLoading) {
       loadingComponent = (
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          {/* <ActivityIndicator
-            animating={this.state.isLoading}
-            size="large"
-            style={styles.activityIndicator}
-          /> */}
           <Loading state={this.state.isLoading} />
         </View>
       );

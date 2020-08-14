@@ -1,24 +1,13 @@
 import {
   StyleSheet,
-  // Text,
-  View,
-  ImageBackground,
-  Image,
-  TouchableOpacity,
   ScrollView,
   Dimensions,
-  Button,
-  Alert,
-  Navigator,
   Switch,
-  Modal,
   ToastAndroid,
 } from 'react-native';
 
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-
-import {Divider} from 'react-native-elements';
 
 import {theme} from '../constants';
 
@@ -31,11 +20,9 @@ import {
 
 import firebase from 'react-native-firebase';
 
-import React, {useState, useReducer, useEffect, Component} from 'react';
+import React, {Component} from 'react';
 
-import {Block, Badge, Card, Text} from '../components';
-import {styles as blockStyles} from '../components/Block';
-import {styles as cardStyles} from '../components/Card';
+import {Block, Card, Text} from '../components';
 
 import VideoPlayer from '../components/VideoPlayer';
 
@@ -158,6 +145,28 @@ class NeighborhoodClassScreen extends Component {
         <Switch
           style={styles.switchButton}
           onValueChange={() => {
+            // this.setState(
+            //   {
+            //     spinner: !this.state.spinner,
+            //   },
+            //   () => {
+            //     firebase
+            //       .database()
+            //       .ref('/')
+            //       .update({neighbor: 'Off'})
+            //       .then(
+            //         setTimeout(() => {
+            //           this.props.stopDetection();
+            //           this.setState({
+            //             detection: false,
+            //             detectionButton: false,
+            //             spinner: false,
+            //           });
+            //           AsyncStorage.setItem('detection_state', 'false');
+            //         }, 3000),
+            //       );
+            //   },
+            // );
             this.setState({detection: false, detectionButton: false});
             firebase
               .database()

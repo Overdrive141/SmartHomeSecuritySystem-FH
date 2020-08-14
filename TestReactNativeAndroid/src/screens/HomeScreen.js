@@ -35,6 +35,11 @@ const HomeScreen = ({navigation}) => {
     requestLocationPermission();
     requestUserPermission();
 
+    const nfcChannel = new firebase.notifications.Android.Channel(
+      'smart-home-nfc',
+      'Door Lock NFC Channel',
+      firebase.notifications.Android.Importance.Max,
+    ).setDescription('Smart Home Security System NFC');
     const neighborhoodChannel = new firebase.notifications.Android.Channel(
       'smart-home-neighborhood',
       'Outdoor Security Channel',
@@ -53,6 +58,7 @@ const HomeScreen = ({navigation}) => {
     firebase.notifications().android.createChannel(indoorChannel);
     firebase.notifications().android.createChannel(channel);
     firebase.notifications().android.createChannel(neighborhoodChannel);
+    firebase.notifications().android.createChannel(nfcChannel);
 
     //Navigate to screen on click of push notification from foreground
     firebase.notifications().onNotificationOpened(notificationOpen => {
@@ -64,6 +70,8 @@ const HomeScreen = ({navigation}) => {
         navigation.navigate('OtherControls');
       } else if (channelId === 'smart-home-neighborhood') {
         navigation.navigate('Neighborhood');
+      } else if (channelId === 'smart-home-nfc') {
+        navigation.navigate('DoorLock');
       }
     });
 
